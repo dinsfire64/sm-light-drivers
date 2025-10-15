@@ -1,0 +1,65 @@
+#include "LightsManager.h"
+#include "LightsDriverPrintf.h"
+#include <iostream>
+
+// --- Static registry definition ---
+std::vector<CreateLightsDriverFn> &LightsManager::GetRegistry()
+{
+    static std::vector<CreateLightsDriverFn> registry;
+    return registry;
+}
+
+void LightsManager::Register(CreateLightsDriverFn fn)
+{
+    GetRegistry().push_back(fn);
+}
+
+// --- Instance methods ---
+LightsManager::LightsManager()
+{
+    // Instantiate all registered drivers
+    for (auto fn : GetRegistry())
+    {
+        m_allDrivers.emplace_back(fn());
+    }
+}
+
+LightsManager::~LightsManager()
+{
+    // Call Disconnect on all connected drivers
+    for (auto *driver : m_connectedDrivers)
+    {
+        if (driver)
+        {
+            driver->Disconnect();
+        }
+    }
+}
+
+void LightsManager::Initialize()
+{
+    m_connectedDrivers.clear();
+
+    for (auto &driver : m_allDrivers)
+    {
+        if (driver->Connect())
+        {
+            m_connectedDrivers.push_back(driver.get());
+        }
+    }
+
+    std::cout << "[LightsManager] " << m_connectedDrivers.size() << " drivers connected.\n";
+}
+
+bool LightsManager::IsConnected()
+{
+    return m_connectedDrivers.size() > 0;
+}
+
+void LightsManager::SetAll(const LightsState *ls)
+{
+    for (auto *driver : m_connectedDrivers)
+    {
+        driver->Set(ls);
+    }
+}

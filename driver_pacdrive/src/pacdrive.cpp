@@ -1,64 +1,56 @@
 #include <pacdrive.h>
-#include <unilight.h>
+#include <LightsManager.h>
 
 #define IS_BIT_SET(data, bit) ((data & (1 << bit)) != 0)
 
+LightsManager lm;
+
 BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle, IN DWORD nReason, IN LPVOID Reserved)
 {
-  switch (nReason) {
+  switch (nReason)
+  {
   case DLL_PROCESS_ATTACH:
     break;
   case DLL_PROCESS_DETACH:
-    if(bd_unilight_is_open()) {
-      bd_unilight_close();
-    }
     break;
   }
   return TRUE;
 }
 
-int PacInitialize(void) {
-  if(bd_unilight_open() == 0) {
-    // The return values is the number of PacDrive devices found.
-    // Here we only have 1 device.
-    return 1; 
-  }
-  return 0; 
+int PacInitialize(void)
+{
+  lm.Initialize();
+
+  return lm.IsConnected() ? 1 : 0;
 }
 
-void PacShutdown(void) {
-  bd_unilight_close();
+void PacShutdown(void)
+{
+  // taken care of by LightsMan destructor
 }
 
-bool PacSetLEDStates(int deviceId, short int data) {
-  bool success = true;
+bool PacSetLEDStates(int deviceId, short int data)
+{
+  LightsState ls;
 
-  uint8_t pad_lights_state = 0;
-  if(IS_BIT_SET(data, 0)) pad_lights_state |= BD_UNILIGHT_LIGHT_PAD_P1_UP;
-  if(IS_BIT_SET(data, 1)) pad_lights_state |= BD_UNILIGHT_LIGHT_PAD_P1_DOWN;
-  if(IS_BIT_SET(data, 2)) pad_lights_state |= BD_UNILIGHT_LIGHT_PAD_P1_LEFT;
-  if(IS_BIT_SET(data, 3)) pad_lights_state |= BD_UNILIGHT_LIGHT_PAD_P1_RIGHT;
-  if(IS_BIT_SET(data, 4)) pad_lights_state |= BD_UNILIGHT_LIGHT_PAD_P2_UP;
-  if(IS_BIT_SET(data, 5)) pad_lights_state |= BD_UNILIGHT_LIGHT_PAD_P2_DOWN;
-  if(IS_BIT_SET(data, 6)) pad_lights_state |= BD_UNILIGHT_LIGHT_PAD_P2_LEFT;
-  if(IS_BIT_SET(data, 7)) pad_lights_state |= BD_UNILIGHT_LIGHT_PAD_P2_RIGHT;
-  if(bd_unilight_set_pad_lights(pad_lights_state) != 0) {
-    success = false;
-  }
-  
-  uint8_t cab_lights_state = 0;
-  if(IS_BIT_SET(data, 8)) cab_lights_state |= BD_UNILIGHT_LIGHT_CAB_MARQUEE_UP_LEFT;
-  if(IS_BIT_SET(data, 9)) cab_lights_state |= BD_UNILIGHT_LIGHT_CAB_MARQUEE_UP_RIGHT;
-  if(IS_BIT_SET(data, 10)) cab_lights_state |= BD_UNILIGHT_LIGHT_CAB_MARQUEE_LR_LEFT;
-  if(IS_BIT_SET(data, 11)) cab_lights_state |= BD_UNILIGHT_LIGHT_CAB_MARQUEE_LR_RIGHT;
-  if(IS_BIT_SET(data, 12)) cab_lights_state |= BD_UNILIGHT_LIGHT_CAB_BUTTONS_P1;
-  if(IS_BIT_SET(data, 13)) cab_lights_state |= BD_UNILIGHT_LIGHT_CAB_BUTTONS_P2;
-  if(IS_BIT_SET(data, 14)) cab_lights_state |= BD_UNILIGHT_LIGHT_CAB_BASS;
-  if(bd_unilight_set_cab_lights(cab_lights_state) != 0) {
-    success = false;
-  }
+  ls.p1_up = IS_BIT_SET(data, 0);
+  ls.p1_down = IS_BIT_SET(data, 1);
+  ls.p1_left = IS_BIT_SET(data, 2);
+  ls.p1_right = IS_BIT_SET(data, 3);
+  ls.p2_up = IS_BIT_SET(data, 4);
+  ls.p2_down = IS_BIT_SET(data, 5);
+  ls.p2_left = IS_BIT_SET(data, 6);
+  ls.p2_right = IS_BIT_SET(data, 7);
 
-  return success;
+  ls.marquee_up_left = IS_BIT_SET(data, 8);
+  ls.marquee_up_right = IS_BIT_SET(data, 9);
+  ls.marquee_lr_left = IS_BIT_SET(data, 10);
+  ls.marquee_lr_right = IS_BIT_SET(data, 11);
+  ls.p1_menu = IS_BIT_SET(data, 12);
+  ls.p2_menu = IS_BIT_SET(data, 13);
+  ls.bass = IS_BIT_SET(data, 14);
+
+  lm.SetAll(&ls);
+
+  return true;
 }
-
-
