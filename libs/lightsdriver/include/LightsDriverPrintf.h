@@ -49,6 +49,3 @@ private:
         return ss.str();
     }
 };
-
-// Automatically register this driver at static initialization time
-REGISTER_LIGHTS_DRIVER(LightsDriverPrintf)

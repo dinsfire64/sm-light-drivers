@@ -1,6 +1,12 @@
 #include "LightsManager.h"
+
 #include "LightsDriverPrintf.h"
+#include "LightsDriverSnek.h"
+
 #include <iostream>
+
+REGISTER_LIGHTS_DRIVER(LightsDriverPrintf)
+REGISTER_LIGHTS_DRIVER(LightsDriverSnek)
 
 // --- Static registry definition ---
 std::vector<CreateLightsDriverFn> &LightsManager::GetRegistry()
