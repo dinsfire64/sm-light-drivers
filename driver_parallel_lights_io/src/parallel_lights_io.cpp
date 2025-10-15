@@ -86,13 +86,13 @@ void SetPad2Lights(char Data) {
 }
 
 short int WINAPI IsDriverInstalled(){
-    #pragma EXPORT
+    
     return 1;
 }
 
 void WINAPI PortOut(short int port, char data)
 {
-#pragma EXPORT
+
   switch(port) {
     case PORT_LPT1:
       SetCabLights(data);
@@ -110,56 +110,56 @@ void WINAPI PortOut(short int port, char data)
   }
 }
 
-// --- STUB IMPLEMENTATIONS FOR OTHER EXPORTED FUNCTIONS (with #pragma EXPORT) ---
+// --- STUB IMPLEMENTATIONS FOR OTHER EXPORTED FUNCTIONS (with ) ---
 
 char WINAPI PortIn(short int port){
-#pragma EXPORT
+
   return '\0';
 }
 
 void WINAPI ClrPortBit(short int Port, int Bit) {
-  #pragma EXPORT
+  
 }
 
 short int WINAPI GetPortBit(short int Port, int Bit) {
-  #pragma EXPORT
+  
   return 0;
 }
 
 void WINAPI LeftPortShift(short int Port, int ShiftAmount) {
-  #pragma EXPORT
+  
 }
 
 void WINAPI NotPortBit(short int Port, int Bit) {
-  #pragma EXPORT
+  
 }
 
 unsigned long WINAPI PortDWordIn(short int Port) {
-  #pragma EXPORT
+  
   return 0;
 }
 
 void WINAPI PortDWordOut(short int Port, unsigned long Data) {
-  #pragma EXPORT
+  
 }
 
 short int WINAPI PortWordIn(short int Port) {
-  #pragma EXPORT
+  
   return 0;
 }
 
 void WINAPI PortWordOut(short int Port, short int Data) {
-  #pragma EXPORT
+  
 }
 
 void WINAPI ReleasePort(short int Port) {
-  #pragma EXPORT
+  
 }
 
 void WINAPI RightPortShift(short int Port, int ShiftAmount) {
-  #pragma EXPORT
+  
 }
 
 void WINAPI SetPortBit(short int Port, int Bit) {
-  #pragma EXPORT
+  
 }

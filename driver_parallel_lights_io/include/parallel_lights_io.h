@@ -1,6 +1,10 @@
 #pragma once
-#define EXPORT comment(linker, "/EXPORT:" __FUNCTION__ "=" __FUNCDNAME__) // MSVC-specific pragma
-#include <Windows.h>
+
+#include <windows.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 BOOLEAN WINAPI DllMain(IN HINSTANCE, IN DWORD, IN LPVOID);
 
@@ -18,3 +22,7 @@ void WINAPI PortWordOut(short int Port, short int Data);
 void WINAPI ReleasePort(short int Port);
 void WINAPI RightPortShift(short int Port, int ShiftAmount);
 void WINAPI SetPortBit(short int Port, int Bit);
+
+#ifdef __cplusplus
+}
+#endif
