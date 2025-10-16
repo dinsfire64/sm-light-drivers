@@ -14,11 +14,17 @@ LightsDriverSnek::LightsDriverSnek()
 };
 
 LightsDriverSnek::~LightsDriverSnek() {
-
+    // hid_close()?
 };
 
 bool LightsDriverSnek::Connect()
 {
+    if (handle != nullptr)
+    {
+        // already connected
+        return true;
+    }
+
     bool found = false;
     struct hid_device_info *devs, *cur_dev;
 
@@ -60,6 +66,12 @@ void LightsDriverSnek::Disconnect()
 
 void LightsDriverSnek::Set(const LightsState *ls)
 {
+    if (handle == nullptr)
+    {
+        // attempt to open if not called already.
+        Connect();
+    }
+
     outputBuffer[SNEK_LIGHTINDEX_REPORT_ID] = SNEK_REPORT_ID;
 
     outputBuffer[SNEK_INDEX_DANCE_M_LR] = ls->marquee_lr_right ? 0xFF : 0x00;
@@ -82,7 +94,8 @@ void LightsDriverSnek::Set(const LightsState *ls)
     outputBuffer[SNEK_INDEX_DANCE_P2_LEFT] = ls->p2_left ? 0xFF : 0x00;
     outputBuffer[SNEK_INDEX_DANCE_P2_RIGHT] = ls->p2_right ? 0xFF : 0x00;
 
-    if (memcmp(outputBuffer, prevOutputBuffer, sizeof(outputBuffer)) != 0)
+    if (handle != nullptr &&
+        (outputBuffer, prevOutputBuffer, sizeof(outputBuffer)) != 0)
     {
         hid_write(handle, outputBuffer, sizeof(outputBuffer));
         memcpy(prevOutputBuffer, outputBuffer, sizeof(prevOutputBuffer));
