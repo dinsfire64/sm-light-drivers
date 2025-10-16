@@ -95,7 +95,7 @@ void LightsDriverSnek::Set(const LightsState *ls)
     outputBuffer[SNEK_INDEX_DANCE_P2_RIGHT] = ls->p2_right ? 0xFF : 0x00;
 
     if (handle != nullptr &&
-        (outputBuffer, prevOutputBuffer, sizeof(outputBuffer)) != 0)
+        memcmp(outputBuffer, prevOutputBuffer, sizeof(outputBuffer)) != 0)
     {
         hid_write(handle, outputBuffer, sizeof(outputBuffer));
         memcpy(prevOutputBuffer, outputBuffer, sizeof(prevOutputBuffer));
