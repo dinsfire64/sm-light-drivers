@@ -4,7 +4,7 @@ project(parallel_lights_io)
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 file(GLOB_RECURSE DEFS "src/*.def")
 
-add_library(parallel_lights_io SHARED ${SOURCES})
+add_library(parallel_lights_io SHARED ${SOURCES} ${DEFS})
 
 target_include_directories(parallel_lights_io PUBLIC include)
 target_link_libraries(parallel_lights_io PRIVATE lightsdriver)

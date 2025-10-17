@@ -18,10 +18,6 @@ BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle, IN DWORD nReason, IN LPVOID Rese
   switch (nReason)
   {
   case DLL_PROCESS_ATTACH:
-    if (!lm.IsConnected())
-    {
-      lm.Initialize();
-    }
     break;
   case DLL_PROCESS_DETACH:
     break;
@@ -44,38 +40,43 @@ void SetCabLights(char Data)
 
 void SetPad1Lights(char Data)
 {
-  light_state.p1_up = IS_BIT_SET(Data, 0);
-  light_state.p1_down = IS_BIT_SET(Data, 1);
-  light_state.p1_left = IS_BIT_SET(Data, 2);
-  light_state.p1_right = IS_BIT_SET(Data, 3);
+  light_state.p1_left = IS_BIT_SET(Data, 0);
+  light_state.p1_right = IS_BIT_SET(Data, 1);
+  light_state.p1_up = IS_BIT_SET(Data, 2);
+  light_state.p1_down = IS_BIT_SET(Data, 3);
 }
 
 void SetPad2Lights(char Data)
 {
-  light_state.p2_up = IS_BIT_SET(Data, 0);
-  light_state.p2_down = IS_BIT_SET(Data, 1);
-  light_state.p2_left = IS_BIT_SET(Data, 2);
-  light_state.p2_right = IS_BIT_SET(Data, 3);
+  light_state.p2_left = IS_BIT_SET(Data, 0);
+  light_state.p2_right = IS_BIT_SET(Data, 1);
+  light_state.p2_up = IS_BIT_SET(Data, 2);
+  light_state.p2_down = IS_BIT_SET(Data, 3);
 }
 
-short int WINAPI IsDriverInstalled()
+short IsDriverInstalled()
 {
   return 1;
 }
 
-void WINAPI PortOut(short int port, char data)
+void PortOut(short Port, short Data)
 {
-  switch (port)
+  if (!lm.IsConnected())
+  {
+    lm.Initialize();
+  }
+
+  switch (Port)
   {
   case SHRT_MAX:
   case PORT_LPT1:
-    SetCabLights(data);
+    SetCabLights(Data);
     break;
   case PORT_LPT2:
-    SetPad1Lights(data);
+    SetPad1Lights(Data);
     break;
   case PORT_LPT3:
-    SetPad2Lights(data);
+    SetPad2Lights(Data);
 
     // Write only after everything is set.
     lm.SetAll(&light_state);
@@ -83,62 +84,4 @@ void WINAPI PortOut(short int port, char data)
   default:
     break;
   }
-}
-
-// --- STUB IMPLEMENTATIONS FOR OTHER EXPORTED FUNCTIONS (with ) ---
-
-char WINAPI PortIn(short int port)
-{
-
-  return '\0';
-}
-
-void WINAPI ClrPortBit(short int Port, int Bit)
-{
-}
-
-short int WINAPI GetPortBit(short int Port, int Bit)
-{
-
-  return 0;
-}
-
-void WINAPI LeftPortShift(short int Port, int ShiftAmount)
-{
-}
-
-void WINAPI NotPortBit(short int Port, int Bit)
-{
-}
-
-unsigned long WINAPI PortDWordIn(short int Port)
-{
-
-  return 0;
-}
-
-void WINAPI PortDWordOut(short int Port, unsigned long Data)
-{
-}
-
-short int WINAPI PortWordIn(short int Port)
-{
-
-  return 0;
-}
-
-void WINAPI PortWordOut(short int Port, short int Data)
-{
-}
-
-void WINAPI ReleasePort(short int Port)
-{
-}
-
-void WINAPI RightPortShift(short int Port, int ShiftAmount)
-{
-}
-
-void WINAPI SetPortBit(short int Port, int Bit)
-{
 }

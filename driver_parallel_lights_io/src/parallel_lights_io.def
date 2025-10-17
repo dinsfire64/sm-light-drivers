@@ -1,0 +1,4 @@
+LIBRARY "parallel_lights_io"
+EXPORTS
+    PortOut
+    IsDriverInstalled
