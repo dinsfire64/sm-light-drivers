@@ -5,24 +5,24 @@
 
 struct LightsState
 {
-    bool marquee_up_left : 1;
-    bool marquee_up_right : 1;
-    bool marquee_lr_left : 1;
-    bool marquee_lr_right : 1;
-    bool bass : 1;
+    bool marquee_up_left;
+    bool marquee_up_right;
+    bool marquee_lr_left;
+    bool marquee_lr_right;
+    bool bass;
 
-    bool p1_menu : 1;
-    bool p2_menu : 1;
+    bool p1_menu;
+    bool p2_menu;
 
-    bool p1_up : 1;
-    bool p1_down : 1;
-    bool p1_left : 1;
-    bool p1_right : 1;
+    bool p1_up;
+    bool p1_down;
+    bool p1_left;
+    bool p1_right;
 
-    bool p2_up : 1;
-    bool p2_down : 1;
-    bool p2_left : 1;
-    bool p2_right : 1;
+    bool p2_up;
+    bool p2_down;
+    bool p2_left;
+    bool p2_right;
 };
 
 class LightsDriver

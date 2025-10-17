@@ -11,4 +11,5 @@ add_subdirectory(driver_pacdrive)
 add_subdirectory(driver_parallel_lights_io)
 add_subdirectory(driver_inpout32)
 add_subdirectory(driver_mmmagic)
+add_subdirectory(driver_mame)
 
