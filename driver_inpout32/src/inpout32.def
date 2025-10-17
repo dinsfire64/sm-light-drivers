@@ -1,0 +1,5 @@
+LIBRARY "inpout32"
+EXPORTS
+    Inp32
+    Out32
+    IsDriverInstalled
