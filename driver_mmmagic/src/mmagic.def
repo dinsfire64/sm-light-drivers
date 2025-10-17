@@ -1,0 +1,16 @@
+LIBRARY "mmmagic"
+EXPORTS
+    mm_connect_minimaid
+    mm_init
+    mm_sendDDRMiniMaidUpdate
+    mm_setBlueLED
+    mm_setDDRAllOff
+    mm_setDDRAllOn
+    mm_setDDRBassLight
+    mm_setDDRCabinetLight
+    mm_setDDRPad1Light
+    mm_setDDRPad2Light
+    mm_setKB
+    mm_setMMOutputReports
+    mm_turnOFF
+    mm_turnON
