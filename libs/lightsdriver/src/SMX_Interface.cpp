@@ -259,7 +259,7 @@ void SMX_Interface::SendLightingState()
 
 	FadeState(foreground);
 	FadeState(background);
-	7();
+	CombineStates();
 
 	SMX_SetLights2_ptr(finalLightState, NUM_OF_RGB_LEDS);
 

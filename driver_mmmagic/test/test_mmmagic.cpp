@@ -59,7 +59,7 @@ int main()
     mm_setMMOutputReports = (MM_SETMMOUTPUTREPORTS)GetProcAddress(hModule, "mm_setMMOutputReports");
     mm_sendDDRMiniMaidUpdate = (MM_SENDDDRMINIMAIDUPDATE)GetProcAddress(hModule, "mm_sendDDRMiniMaidUpdate");
 
-    if (!mm_connect_minimaid || !mm_setKB)
+    if (!mm_connect_minimaid || !mm_setKB || !mm_setDDRAllOn || !mm_setDDRAllOff || !mm_sendDDRMiniMaidUpdate)
     {
         const DWORD error = GetLastError(); // Get the last error code for GetProcAddress failure
         std::cerr << "Failed to get function addresses. Error code: " << error << " (" << std::system_category().message(error) << ")" << std::endl;
