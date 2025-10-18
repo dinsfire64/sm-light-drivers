@@ -15,10 +15,10 @@ LightsDriverSextet::~LightsDriverSextet()
     Disconnect();
 };
 
-bool LightsDriverSextet::Connect()
+bool LightsDriverSextet::ConnectHardware()
 {
     // open device
-    device = CreateFileA(
+    deviceHardware = CreateFileA(
         SEXTET_PORT,
         GENERIC_READ | GENERIC_WRITE,
         0,
@@ -28,7 +28,7 @@ bool LightsDriverSextet::Connect()
         0);
 
     // check device
-    if (device == INVALID_HANDLE_VALUE)
+    if (deviceHardware == INVALID_HANDLE_VALUE)
     {
         return false;
     }
@@ -37,7 +37,7 @@ bool LightsDriverSextet::Connect()
     DCB dcb;
     SecureZeroMemory(&dcb, sizeof(DCB));
     dcb.DCBlength = sizeof(DCB);
-    if (!GetCommState(device, &dcb))
+    if (!GetCommState(deviceHardware, &dcb))
     {
         return false;
     }
@@ -47,24 +47,71 @@ bool LightsDriverSextet::Connect()
     dcb.ByteSize = 8;
     dcb.Parity = NOPARITY;
     dcb.StopBits = ONESTOPBIT;
-    if (!SetCommState(device, &dcb))
+    if (!SetCommState(deviceHardware, &dcb))
     {
         return false;
     }
 
     // success
-    is_connected = true;
+    connectedHardware = true;
     return true;
+}
+
+bool LightsDriverSextet::ConnectPipe()
+{
+    devicePipe = CreateFile(
+        SEXTET_PIPE,
+        GENERIC_WRITE,
+        0,
+        NULL,
+        OPEN_EXISTING,
+        0,
+        NULL);
+
+    if (devicePipe != nullptr)
+    {
+        connectedPipe = true;
+    }
+
+    return connectedPipe;
+}
+
+bool LightsDriverSextet::Connect()
+{
+    bool pipeConnected = ConnectPipe();
+    bool hardwareConnected = ConnectHardware();
+
+    return pipeConnected || hardwareConnected;
 }
 
 void LightsDriverSextet::Disconnect()
 {
-    if (is_connected)
+    if (connectedHardware)
     {
-        CloseHandle(device);
+        CloseHandle(deviceHardware);
     }
 
-    is_connected = false;
+    if (connectedPipe)
+    {
+        CloseHandle(devicePipe);
+    }
+
+    connectedHardware = false;
+    connectedPipe = false;
+}
+
+bool LightsDriverSextet::PushTo(HANDLE device)
+{
+    DWORD bytes_written;
+
+    WriteFile(
+        device,
+        outputBuffer,
+        FULL_SEXTET_COUNT,
+        &bytes_written,
+        NULL);
+
+    return bytes_written == FULL_SEXTET_COUNT;
 }
 
 void LightsDriverSextet::Set(const LightsState *ls)
@@ -106,12 +153,16 @@ void LightsDriverSextet::Set(const LightsState *ls)
     {
         // write data to device
         DWORD bytes_written;
-        WriteFile(
-            device,
-            outputBuffer,
-            FULL_SEXTET_COUNT,
-            &bytes_written,
-            NULL);
+
+        if (deviceHardware != nullptr && connectedHardware)
+        {
+            PushTo(deviceHardware);
+        }
+
+        if (devicePipe != nullptr && connectedPipe)
+        {
+            PushTo(devicePipe);
+        }
 
         memcpy(prevOutputBuffer, outputBuffer, sizeof(prevOutputBuffer));
     }

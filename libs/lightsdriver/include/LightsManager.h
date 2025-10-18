@@ -20,6 +20,7 @@ public:
 private:
     std::vector<std::unique_ptr<LightsDriver>> m_allDrivers;
     std::vector<LightsDriver *> m_connectedDrivers;
+    bool connected = false;
 
 public:
     // Registration system

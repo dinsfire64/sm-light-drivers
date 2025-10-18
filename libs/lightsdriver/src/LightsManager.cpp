@@ -60,11 +60,12 @@ void LightsManager::Initialize()
     }
 
     std::cout << "[LightsManager] " << m_connectedDrivers.size() << " drivers connected.\n";
+    connected = true;
 }
 
 bool LightsManager::IsConnected()
 {
-    return m_connectedDrivers.size() > 0;
+    return connected;
 }
 
 void LightsManager::SetAll(const LightsState *ls)
