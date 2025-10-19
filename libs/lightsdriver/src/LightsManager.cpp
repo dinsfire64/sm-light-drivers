@@ -42,7 +42,13 @@ LightsManager::LightsManager()
 
 LightsManager::~LightsManager()
 {
-    // Call Disconnect on all connected drivers
+    // Stop worker thread
+    m_running = false;
+    m_cv.notify_all();
+    if (m_worker.joinable())
+        m_worker.join();
+
+    // Disconnect all drivers
     for (auto *driver : m_connectedDrivers)
     {
         if (driver)
@@ -66,6 +72,10 @@ void LightsManager::Initialize()
 
     std::cout << "[LightsManager] " << m_connectedDrivers.size() << " drivers connected.\n";
     connected = true;
+
+    // Start background thread
+    m_running = true;
+    m_worker = std::thread(&LightsManager::WorkerThread, this);
 }
 
 bool LightsManager::IsConnected()
@@ -75,8 +85,38 @@ bool LightsManager::IsConnected()
 
 void LightsManager::SetAll(const LightsState *ls)
 {
-    for (auto *driver : m_connectedDrivers)
+    if (!connected)
+        return;
+
+    std::unique_lock<std::mutex> lock(m_mutex);
+    m_queue.push(*ls); // copy LightsState into queue
+    m_cv.notify_one();
+}
+
+// --- Worker thread implementation ---
+void LightsManager::WorkerThread()
+{
+    while (m_running)
     {
-        driver->Set(ls);
+        LightsState ls;
+
+        {
+            std::unique_lock<std::mutex> lock(m_mutex);
+            m_cv.wait(lock, [&]
+                      { return !m_queue.empty() || !m_running; });
+
+            if (!m_running)
+                break;
+
+            ls = m_queue.back(); // get the most recent one
+            std::queue<LightsState> empty;
+            std::swap(m_queue, empty); // clear the queue (drop old updates)
+        }
+
+        // Send the latest lights state to all connected drivers
+        for (auto *driver : m_connectedDrivers)
+        {
+            driver->Set(&ls);
+        }
     }
 }

@@ -1,6 +1,11 @@
 #pragma once
-#include <vector>
-#include <memory>
+
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <queue>
+#include <atomic>
+
 #include "LightsDriver.h"
 
 // Forward declare a factory type
@@ -21,6 +26,15 @@ private:
     std::vector<std::unique_ptr<LightsDriver>> m_allDrivers;
     std::vector<LightsDriver *> m_connectedDrivers;
     bool connected = false;
+
+    // --- Threading members ---
+    std::thread m_worker;
+    std::mutex m_mutex;
+    std::condition_variable m_cv;
+    std::queue<LightsState> m_queue;
+    std::atomic<bool> m_running{false};
+
+    void WorkerThread();
 
 public:
     // Registration system
