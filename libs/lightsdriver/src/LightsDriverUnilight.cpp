@@ -69,6 +69,12 @@ void LightsDriverUnilight::Set(const LightsState *ls)
 
     cabLights |= ls->bass ? BD_UNILIGHT_LIGHT_CAB_BASS : 0x00;
 
+    if (cabLights != prevCabLights)
+    {
+        pushCabLights();
+        prevCabLights = cabLights;
+    }
+
     padLights = 0;
 
     padLights |= ls->p1_left ? BD_UNILIGHT_LIGHT_PAD_P1_LEFT : 0x00;
@@ -80,12 +86,6 @@ void LightsDriverUnilight::Set(const LightsState *ls)
     padLights |= ls->p2_right ? BD_UNILIGHT_LIGHT_PAD_P2_RIGHT : 0x00;
     padLights |= ls->p2_up ? BD_UNILIGHT_LIGHT_PAD_P2_UP : 0x00;
     padLights |= ls->p2_down ? BD_UNILIGHT_LIGHT_PAD_P2_DOWN : 0x00;
-
-    if (cabLights != prevCabLights)
-    {
-        pushCabLights();
-        prevCabLights = cabLights;
-    }
 
     if (padLights != prevPadLights)
     {
