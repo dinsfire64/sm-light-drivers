@@ -6,6 +6,7 @@
 #include "LightsDriverSMX.h"
 #include "LightsDriverMinimaid.h"
 #include "LightsDriverUnilight.h"
+#include "LightsDriverStac.h"
 
 #include <iostream>
 
@@ -17,6 +18,7 @@ REGISTER_LIGHTS_DRIVER(LightsDriverSextet)
 REGISTER_LIGHTS_DRIVER(LightsDriverSMX)
 REGISTER_LIGHTS_DRIVER(LightsDriverMinimaid)
 REGISTER_LIGHTS_DRIVER(LightsDriverUnilight)
+REGISTER_LIGHTS_DRIVER(LightsDriverStac)
 
 // --- Static registry definition ---
 std::vector<CreateLightsDriverFn> &LightsManager::GetRegistry()

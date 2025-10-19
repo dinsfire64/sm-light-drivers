@@ -35,6 +35,7 @@ bool HIDHelper::Open()
 
                 if (handle)
                 {
+                    //std::cout << cur_dev->path << std::endl;
                     found = true;
                 }
 
