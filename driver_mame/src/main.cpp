@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#define DEBUGping  false
+#define DEBUG false
 
 LightsManager lm;
 LightsState light_state;
