@@ -2,6 +2,7 @@
 
 #include "LightsDriver.h"
 #include "LightsManager.h"
+#include "HIDHelper.h"
 
 #include <cstdint>
 #include <string.h>
@@ -95,4 +96,6 @@ public:
 private:
     uint8_t outputBuffer[SNEK_LIGHTINDEX_MAX];
     uint8_t prevOutputBuffer[SNEK_LIGHTINDEX_MAX];
+
+    HIDHelper *hidHelper;
 };
