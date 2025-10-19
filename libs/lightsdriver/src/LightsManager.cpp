@@ -5,16 +5,18 @@
 #include "LightsDriverSextet.h"
 #include "LightsDriverSMX.h"
 #include "LightsDriverMinimaid.h"
+#include "LightsDriverUnilight.h"
 
 #include <iostream>
 
-//for debugging/testing only.
-//REGISTER_LIGHTS_DRIVER(LightsDriverPrintf)
+// for debugging/testing only.
+// REGISTER_LIGHTS_DRIVER(LightsDriverPrintf)
 
 REGISTER_LIGHTS_DRIVER(LightsDriverSnek)
 REGISTER_LIGHTS_DRIVER(LightsDriverSextet)
 REGISTER_LIGHTS_DRIVER(LightsDriverSMX)
 REGISTER_LIGHTS_DRIVER(LightsDriverMinimaid)
+REGISTER_LIGHTS_DRIVER(LightsDriverUnilight)
 
 // --- Static registry definition ---
 std::vector<CreateLightsDriverFn> &LightsManager::GetRegistry()
