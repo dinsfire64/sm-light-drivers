@@ -37,7 +37,7 @@ SMX_Interface::SMX_Interface()
 
 SMX_Interface::~SMX_Interface()
 {
-	printf("~SMX_Interface");
+	//printf("~SMX_Interface");
 	return;
 
 	if (run_thread)
