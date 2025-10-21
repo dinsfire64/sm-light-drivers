@@ -25,6 +25,8 @@ cp bins/sm3_95/* release/StepMania3_95 || true
 
 # oitg/nitg needs parallel_lights_io
 cp build-win32/driver_parallel_lights_io/*.dll release/OpenITG-NotITG || true
+
+# sm5.0.12 is still 32bit, so 32bit minimaid lib.
 cp build-win32/driver_mmmagic/*.dll release/StepMania5 || true
 
 # modern sm5 forks need 64bit minimaid library
