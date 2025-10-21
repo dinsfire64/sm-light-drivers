@@ -23,6 +23,38 @@ struct LightsState
     bool p2_down;
     bool p2_left;
     bool p2_right;
+
+    void SetAll(bool val)
+    {
+        marquee_up_left = val;
+        marquee_up_right = val;
+        marquee_lr_left = val;
+        marquee_lr_right = val;
+        bass = val;
+
+        p1_menu = val;
+        p2_menu = val;
+
+        p1_up = val;
+        p1_down = val;
+        p1_left = val;
+        p1_right = val;
+
+        p2_up = val;
+        p2_down = val;
+        p2_left = val;
+        p2_right = val;
+    }
+    
+    void AllOn()
+    {
+        SetAll(true);
+    }
+    
+    void AllOff()
+    {
+        SetAll(false);
+    }
 };
 
 class LightsDriver

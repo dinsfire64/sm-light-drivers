@@ -118,36 +118,14 @@ void mm_setDDRBassLight(int a, int b)
   light_state.bass = b;
 }
 
-void setAllLocal(bool val)
-{
-  light_state.marquee_up_left = val;
-  light_state.marquee_up_right = val;
-  light_state.marquee_lr_left = val;
-  light_state.marquee_lr_right = val;
-  light_state.bass = val;
-
-  light_state.p1_menu = val;
-  light_state.p2_menu = val;
-
-  light_state.p1_up = val;
-  light_state.p1_down = val;
-  light_state.p1_left = val;
-  light_state.p1_right = val;
-
-  light_state.p2_up = val;
-  light_state.p2_down = val;
-  light_state.p2_left = val;
-  light_state.p2_right = val;
-}
-
 void mm_setDDRAllOn()
 {
-  setAllLocal(true);
+  light_state.AllOn();
 }
 
 void mm_setDDRAllOff()
 {
-  setAllLocal(false);
+  light_state.AllOff();
 }
 
 bool mm_connect_minimaid()

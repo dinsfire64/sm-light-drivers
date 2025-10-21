@@ -90,7 +90,9 @@ int main()
         // send lighting state forever
         while (1)
         {
-            // TODO: turn off all the lights in-between connections.
+            // turn off lights between connections.
+            light_state.AllOff();
+            lm.SetAll(&light_state);
 
             printf("Connecting to MAME.");
 
