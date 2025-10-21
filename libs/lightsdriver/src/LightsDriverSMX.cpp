@@ -45,7 +45,7 @@ LightsDriverSMX::~LightsDriverSMX() {
 
 bool LightsDriverSMX::Connect()
 {
-    if (smx_i.isDllLoaded())
+    if (smx_i.attemptDllLoad())
     {
         smx_i.StartThread();
 
@@ -80,12 +80,4 @@ void LightsDriverSMX::Set(const LightsState *ls)
 
     smx_i.Update_Light(smx_light_map[12], ls->p1_menu);
     smx_i.Update_Light(smx_light_map[13], ls->p2_menu);
-
-    /*
-    if (memcmp(outputBuffer, prevOutputBuffer, sizeof(outputBuffer)) != 0)
-    {
-
-        memcpy(prevOutputBuffer, outputBuffer, sizeof(prevOutputBuffer));
-    }\
-*/
 }

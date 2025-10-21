@@ -63,6 +63,8 @@ struct smx_pad_light_map
 
 #define SMX_THREAD_MS 32
 
+#define SMX_DLL_FILENAME "SMX.dll"
+
 struct padstate
 {
 	uint8_t pattern[NUM_OF_RGB_LEDS];
@@ -129,6 +131,7 @@ public:
 	~SMX_Interface();
 	
 	bool isDllLoaded();
+	bool attemptDllLoad();
 
 	void StartThread();
 	void StopThread();

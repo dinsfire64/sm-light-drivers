@@ -17,27 +17,11 @@ SMX_Interface::SMX_Interface()
 	memset(foreground, 0x00, sizeof(padstate));
 
 	MakeOverlayMask();
-
-	if (LoadSMXDLL("SMX.dll"))
-	{
-
-#if SMX_DEBUG
-		// Set a logging callback.  This can be called before SMX_Start.
-		SMX_SetLogCallback_ptr(SMXLogCallback);
-#endif
-
-		// Start scanning.  The update callback will be called when devices connect or
-		// disconnect or panels are pressed or released.  This callback will be called
-		// from a thread.
-		SMX_Start_ptr(SMXStateChangedCallback, this);
-
-		dllLoaded = true;
-	}
 }
 
 SMX_Interface::~SMX_Interface()
 {
-	//printf("~SMX_Interface");
+	// printf("~SMX_Interface");
 	return;
 
 	if (run_thread)
@@ -56,13 +40,44 @@ bool SMX_Interface::isDllLoaded()
 	return dllLoaded;
 }
 
+bool SMX_Interface::attemptDllLoad()
+{
+	if (LoadSMXDLL(SMX_DLL_FILENAME))
+	{
+
+#if SMX_DEBUG
+		// Set a logging callback.  This can be called before SMX_Start.
+		SMX_SetLogCallback_ptr(SMXLogCallback);
+#endif
+
+		// Start scanning.  The update callback will be called when devices connect or
+		// disconnect or panels are pressed or released.  This callback will be called
+		// from a thread.
+		SMX_Start_ptr(SMXStateChangedCallback, this);
+
+		dllLoaded = true;
+	}
+	else
+	{
+		dllLoaded = false;
+	}
+
+	return dllLoaded;
+}
+
 bool SMX_Interface::LoadSMXDLL(const char *dllPath)
 {
 	HMODULE hModule = LoadLibrary(dllPath);
 	if (!hModule)
 	{
 		DWORD err = GetLastError();
-		printf("Failed to load DLL: %s %lu\n", dllPath, err);
+
+		// do not print error for "cannot be found" 126
+		if (err != 126)
+		{
+			printf("Failed to load DLL: %s %lu\n", dllPath, err);
+		}
+
 		return false;
 	}
 
