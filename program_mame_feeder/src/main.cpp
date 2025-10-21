@@ -75,7 +75,7 @@ void interp_mame_light(string input)
 
 int main()
 {
-    printf("Starting %s\r\n", _WIN32 ? "32bit" : "64bit");
+    printf("Starting mame_feeder %s\r\n", _WIN32 ? "32bit" : "64bit");
 
     bool connected = false;
 
