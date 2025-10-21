@@ -62,10 +62,13 @@ void LightsDriverStac::Set(const LightsState *ls)
 
     for (int i = 0; i < STAC_MAX_NUMBER; i++)
     {
-        if (memcmp(outputBuffer[i], prevOutputBuffer[i], sizeof(outputBuffer[i])) != 0)
+        if (hidHelper[i]->IsOpen())
         {
-            hidHelper[i]->Write(outputBuffer[i], sizeof(outputBuffer[i]));
-            memcpy(prevOutputBuffer[i], outputBuffer[i], sizeof(prevOutputBuffer[i]));
+            if (memcmp(outputBuffer[i], prevOutputBuffer[i], sizeof(outputBuffer[i])) != 0)
+            {
+                hidHelper[i]->Write(outputBuffer[i], sizeof(outputBuffer[i]));
+                memcpy(prevOutputBuffer[i], outputBuffer[i], sizeof(prevOutputBuffer[i]));
+            }
         }
     }
 }
