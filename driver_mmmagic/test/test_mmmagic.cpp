@@ -7,34 +7,34 @@ typedef void (*MM_SETDDRPAD1LIGHT)(int, int);
 typedef void (*MM_SETDDRPAD2LIGHT)(int, int);
 typedef void (*MM_SETCABINETLIGHT)(int, int);
 typedef void (*MM_SETDDRBASSLIGHT)(int, int);
-static MM_SETDDRPAD1LIGHT mm_setDDRPad1Light;
-static MM_SETDDRPAD2LIGHT mm_setDDRPad2Light;
-static MM_SETCABINETLIGHT mm_setDDRCabinetLight;
-static MM_SETDDRBASSLIGHT mm_setDDRBassLight;
+static MM_SETDDRPAD1LIGHT mm_setDDRPad1Light = nullptr;
+static MM_SETDDRPAD2LIGHT mm_setDDRPad2Light = nullptr;
+static MM_SETCABINETLIGHT mm_setDDRCabinetLight = nullptr;
+static MM_SETDDRBASSLIGHT mm_setDDRBassLight = nullptr;
 
 typedef bool (*MM_CONNECT_MINIMAID)();
 typedef bool (*MM_SETKB)(bool val);
-static MM_CONNECT_MINIMAID mm_connect_minimaid;
-static MM_SETKB mm_setKB;
+static MM_CONNECT_MINIMAID mm_connect_minimaid = nullptr;
+static MM_SETKB mm_setKB = nullptr;
 
 typedef void (*MM_SETDDRALLON)();
 typedef void (*MM_SETDDRALLOFF)();
-static MM_SETDDRALLON mm_setDDRAllOn;
-static MM_SETDDRALLOFF mm_setDDRAllOff;
+static MM_SETDDRALLON mm_setDDRAllOn = nullptr;
+static MM_SETDDRALLOFF mm_setDDRAllOff = nullptr;
 
 typedef void (*MM_SETBLUELED)(unsigned char);
 typedef void (*MM_SETMMOUTPUTREPORTS)(unsigned char, unsigned char, unsigned char, unsigned char);
 typedef bool (*MM_SENDDDRMINIMAIDUPDATE)();
-static MM_SETBLUELED mm_setBlueLED;
-static MM_SETMMOUTPUTREPORTS mm_setMMOutputReports;
-static MM_SENDDDRMINIMAIDUPDATE mm_sendDDRMiniMaidUpdate;
+static MM_SETBLUELED mm_setBlueLED = nullptr;
+static MM_SETMMOUTPUTREPORTS mm_setMMOutputReports = nullptr;
+static MM_SENDDDRMINIMAIDUPDATE mm_sendDDRMiniMaidUpdate = nullptr;
 
 typedef void (*MM_INIT)();
 typedef void (*MM_TURNON)(unsigned char, int);
 typedef bool (*MM_TURNOFF)(unsigned char, int);
-static MM_INIT mm_init;
-static MM_TURNON mm_turnON;
-static MM_TURNOFF mm_turnOFF;
+static MM_INIT mm_init = nullptr;
+static MM_TURNON mm_turnON = nullptr;
+static MM_TURNOFF mm_turnOFF = nullptr;
 
 int main()
 {
@@ -59,7 +59,9 @@ int main()
     mm_setMMOutputReports = (MM_SETMMOUTPUTREPORTS)GetProcAddress(hModule, "mm_setMMOutputReports");
     mm_sendDDRMiniMaidUpdate = (MM_SENDDDRMINIMAIDUPDATE)GetProcAddress(hModule, "mm_sendDDRMiniMaidUpdate");
 
-    if (!mm_connect_minimaid || !mm_setKB || !mm_setDDRAllOn || !mm_setDDRAllOff || !mm_sendDDRMiniMaidUpdate)
+    if (!mm_connect_minimaid || !mm_setKB || !mm_setDDRPad1Light ||
+        !mm_setDDRCabinetLight || !mm_setDDRBassLight || !mm_setDDRPad2Light ||
+        !mm_setDDRAllOn || !mm_setDDRAllOff || !mm_setBlueLED || !mm_setMMOutputReports || !mm_sendDDRMiniMaidUpdate)
     {
         const DWORD error = GetLastError(); // Get the last error code for GetProcAddress failure
         std::cerr << "Failed to get function addresses. Error code: " << error << " (" << std::system_category().message(error) << ")" << std::endl;
