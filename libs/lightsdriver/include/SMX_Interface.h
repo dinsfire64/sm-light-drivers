@@ -29,12 +29,35 @@ typedef const char *(*SMX_Version_t)();
 
 using namespace std;
 
+enum SMXLightIndex
+{
+	P1_UPPER_LFT = 0,
+	P1_UPPER_MID,
+	P1_UPPER_RGT,
+	P1_MIDDLE_LFT,
+	P1_MIDDLE_MID,
+	P1_MIDDLE_RGT,
+	P1_LOWER_LFT,
+	P1_LOWER_MID,
+	P1_LOWER_RGT,
+
+	P2_UPPER_LFT,
+	P2_UPPER_MID,
+	P2_UPPER_RGT,
+	P2_MIDDLE_LFT,
+	P2_MIDDLE_MID,
+	P2_MIDDLE_RGT,
+	P2_LOWER_LFT,
+	P2_LOWER_MID,
+	P2_LOWER_RGT,
+};
+
 struct smx_pad_light_map
 {
-	int smx_light_panel_offset;
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
+	SMXLightIndex smx_light_panel_offset;
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
 	bool repeat_on_both;
 	bool fade_on;
 };
@@ -129,7 +152,7 @@ private:
 public:
 	SMX_Interface();
 	~SMX_Interface();
-	
+
 	bool isDllLoaded();
 	bool attemptDllLoad();
 

@@ -8,35 +8,36 @@
 smx_pad_light_map smx_light_map[] = {
 
     // P1 R, L, D, U
-    {5, 0x00, 0x00, 0xFF, false, false},
-    {3, 0x00, 0x00, 0xFF, false, false},
-    {7, 0xFF, 0x00, 0x00, false, false},
-    {1, 0xFF, 0x00, 0x00, false, false},
+    {P1_MIDDLE_RGT, 0x00, 0x00, 0xFF, false, false},
+    {P1_MIDDLE_LFT, 0x00, 0x00, 0xFF, false, false},
+    {P1_LOWER_MID, 0xFF, 0x00, 0x00, false, false},
+    {P1_UPPER_MID, 0xFF, 0x00, 0x00, false, false},
 
     // P2 R, L, D, U
-    {14, 0x00, 0x00, 0xFF, false, false},
-    {12, 0x00, 0x00, 0xFF, false, false},
-    {16, 0xFF, 0x00, 0x00, false, false},
-    {10, 0xFF, 0x00, 0x00, false, false},
+    {P2_MIDDLE_RGT, 0x00, 0x00, 0xFF, false, false},
+    {P2_MIDDLE_LFT, 0x00, 0x00, 0xFF, false, false},
+    {P2_LOWER_MID, 0xFF, 0x00, 0x00, false, false},
+    {P2_UPPER_MID, 0xFF, 0x00, 0x00, false, false},
 
     // Red/Blue marquee lights
     // UL, LL, UR, LR
-    {0, 0xFF, 0x00, 0x00, true, true},
-    {6, 0x00, 0x00, 0xFF, true, true},
-    {2, 0xFF, 0x00, 0x00, true, true},
-    {8, 0x00, 0x00, 0xFF, true, true},
+    {P1_UPPER_LFT, 0xFF, 0x00, 0x00, true, true},
+    {P1_LOWER_LFT, 0x00, 0x00, 0xFF, true, true},
+    {P1_UPPER_RGT, 0xFF, 0x00, 0x00, true, true},
+    {P1_LOWER_RGT, 0x00, 0x00, 0xFF, true, true},
 
     // P1, P2 button
-    {4, 0x00, 0xFF, 0x00, false, true},
-    {13, 0x00, 0xFF, 0x00, false, true},
+    {P1_MIDDLE_MID, 0x00, 0xFF, 0x00, false, true},
+    {P2_MIDDLE_MID, 0x00, 0xFF, 0x00, false, true},
 
-    // Bass is handled in process_buffer
 };
+
+smx_pad_light_map bass_overlay = {P1_UPPER_LFT, 0xff, 0xff, 0xff, false, false};
 
 LightsDriverSMX::LightsDriverSMX()
 {
     smx_i = SMX_Interface();
-    smx_i.SetOverlayColor({0, 0xff, 0xff, 0xff, false});
+    smx_i.SetOverlayColor(bass_overlay);
 };
 
 LightsDriverSMX::~LightsDriverSMX() {
