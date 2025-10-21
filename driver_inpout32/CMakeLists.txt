@@ -22,5 +22,6 @@ target_link_options(inpout32_test PRIVATE
 )
 target_link_options(inpout32 PRIVATE
     -static
+    "-Wl,--enable-stdcall-fixup"
 )
 
