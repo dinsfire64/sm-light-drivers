@@ -19,9 +19,11 @@ add_executable(inpout32_test ${TEST_SOURCES})
 
 target_link_options(inpout32_test PRIVATE
     -static
+    -s
 )
 target_link_options(inpout32 PRIVATE
     -static
+    -s
     "-Wl,--enable-stdcall-fixup"
 )
 

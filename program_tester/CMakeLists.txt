@@ -9,4 +9,5 @@ target_link_libraries(tester PRIVATE lightsdriver)
 
 target_link_options(tester PRIVATE
     -static
+    -s
 )

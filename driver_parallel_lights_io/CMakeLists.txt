@@ -19,9 +19,11 @@ add_executable(parallel_lights_io_test ${TEST_SOURCES})
 
 target_link_options(parallel_lights_io_test PRIVATE
     -static
+    -s
 )
 target_link_options(parallel_lights_io PRIVATE
     -static
     "-Wl,--enable-stdcall-fixup"
+    -s
 )
 

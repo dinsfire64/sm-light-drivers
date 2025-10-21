@@ -18,7 +18,9 @@ add_executable(pacdrive_test ${TEST_SOURCES})
 
 target_link_options(pacdrive_test PRIVATE
     -static
+    -s
 )
 target_link_options(pacdrive PRIVATE
     -static
+    -s
 )

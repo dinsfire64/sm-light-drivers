@@ -19,8 +19,10 @@ add_executable(mmmagic_test ${TEST_SOURCES})
 
 target_link_options(mmmagic_test PRIVATE
     -static
+    -s
 )
 target_link_options(mmmagic PRIVATE
     -static
+    -s
 )
 
