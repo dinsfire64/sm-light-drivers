@@ -1,3 +1,6 @@
 [submodule "libs/hidapi"]
 	path = libs/hidapi
 	url = https://github.com/libusb/hidapi.git
+[submodule "libs/simpleini"]
+	path = libs/simpleini
+	url = git@github.com:brofield/simpleini.git

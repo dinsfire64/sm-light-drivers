@@ -1,6 +1,8 @@
 #ifndef LightsDriver_H
 #define LightsDriver_H
 
+#include "IniHelper.h"
+
 #include <vector>
 
 struct LightsState

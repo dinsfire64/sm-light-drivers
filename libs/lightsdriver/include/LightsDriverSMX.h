@@ -23,4 +23,6 @@ public:
 
 private:
     SMX_Interface smx_i;
+    
+    void LoadColorMap();
 };

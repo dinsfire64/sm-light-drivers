@@ -94,10 +94,10 @@ int main()
             light_state.AllOff();
             lm.SetAll(&light_state);
 
-            printf("Connecting to MAME.");
+            printf("Connecting to MAME at %s.", IniHelper::Mame.IPAddress.c_str());
 
             // connect to mame
-            while (!s.Init("127.0.0.1"))
+            while (!s.Init(IniHelper::Mame.IPAddress.c_str()))
             {
                 Sleep(1000);
                 printf(".");

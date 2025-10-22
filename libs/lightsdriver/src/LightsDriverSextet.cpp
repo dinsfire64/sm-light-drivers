@@ -17,9 +17,11 @@ LightsDriverSextet::~LightsDriverSextet()
 
 bool LightsDriverSextet::ConnectHardware()
 {
+    std::string devicePath = std::string("\\\\.\\") + IniHelper::Sextet.ComPort;
+
     // open device
     deviceHardware = CreateFileA(
-        SEXTET_PORT,
+        devicePath.c_str(),
         GENERIC_READ | GENERIC_WRITE,
         0,
         0,
@@ -59,8 +61,10 @@ bool LightsDriverSextet::ConnectHardware()
 
 bool LightsDriverSextet::ConnectPipe()
 {
+    std::string pipePath = std::string("\\\\.\\pipe\\") + IniHelper::Sextet.PipeName;
+
     devicePipe = CreateFile(
-        SEXTET_PIPE,
+        pipePath.c_str(),
         GENERIC_WRITE,
         0,
         NULL,

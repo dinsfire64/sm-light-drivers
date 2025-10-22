@@ -8,9 +8,6 @@
 
 #include <windows.h>
 
-#define SEXTET_PORT "\\\\.\\COM54"
-#define SEXTET_PIPE "\\\\.\\pipe\\StepMania-Lights-SextetStream"
-
 class LightsDriverSextet : public LightsDriver
 {
 public:

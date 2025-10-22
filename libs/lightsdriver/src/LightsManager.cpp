@@ -41,6 +41,11 @@ void LightsManager::Register(CreateLightsDriverFn fn)
 // --- Instance methods ---
 LightsManager::LightsManager()
 {
+    // load the values
+    // this santities them, then flush to disk.
+    IniHelper::Load();
+    IniHelper::Save();
+
     // Instantiate all registered drivers
     for (auto fn : GetRegistry())
     {
