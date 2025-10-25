@@ -10,6 +10,7 @@
 #include "LightsDriverStac2.h"
 #include "LightsDriverPacDrive.h"
 #include "LightsDriverFusionGamepad.h"
+#include "LightsDriverGPB.h"
 
 #include <iostream>
 
@@ -25,6 +26,7 @@ REGISTER_LIGHTS_DRIVER(LightsDriverStac)
 REGISTER_LIGHTS_DRIVER(LightsDriverStac2)
 REGISTER_LIGHTS_DRIVER(LightsDriverPacDrive)
 REGISTER_LIGHTS_DRIVER(LightsDriverFusionGamepad)
+REGISTER_LIGHTS_DRIVER(LightsDriverGPB)
 
 // --- Static registry definition ---
 std::vector<CreateLightsDriverFn> &LightsManager::GetRegistry()
