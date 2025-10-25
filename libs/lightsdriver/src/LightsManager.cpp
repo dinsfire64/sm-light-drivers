@@ -59,7 +59,10 @@ LightsManager::LightsManager()
 LightsManager::~LightsManager()
 {
     // force all off on exit.
-    ForceAllTo(true);
+    ForceAllTo(false);
+
+    // wait for worker to finish
+    Sleep(LIGHTSMAN_TIMEOUT_THREAD_MS);
 
     // Stop worker thread
     m_running = false;
