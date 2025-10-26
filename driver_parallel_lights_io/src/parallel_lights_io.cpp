@@ -10,7 +10,7 @@
 
 #define IS_BIT_SET(data, bit) ((data & (1 << bit)) != 0)
 
-LightsManager lm;
+LightsManager *lm = new LightsManager();
 LightsState light_state;
 
 bool useOITGmapping = false;
@@ -22,6 +22,10 @@ BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle, IN DWORD nReason, IN LPVOID Rese
   case DLL_PROCESS_ATTACH:
     break;
   case DLL_PROCESS_DETACH:
+    if (lm != nullptr)
+    {
+      lm->Shutdown();
+    }
     break;
   default:
     break;
@@ -81,9 +85,9 @@ short IsDriverInstalled()
 
 void PortOut(short Port, short Data)
 {
-  if (!lm.IsConnected())
+  if (!lm->IsConnected())
   {
-    lm.Initialize();
+    lm->Initialize();
   }
 
   switch (Port)
@@ -99,7 +103,7 @@ void PortOut(short Port, short Data)
     SetPad2Lights(Data);
 
     // Write only after everything is set.
-    lm.SetAll(&light_state);
+    lm->SetAll(&light_state);
     break;
   default:
     break;

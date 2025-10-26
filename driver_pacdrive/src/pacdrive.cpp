@@ -3,17 +3,40 @@
 
 #define IS_BIT_SET(data, bit) ((data & (1 << bit)) != 0)
 
-LightsManager lm;
+LightsManager *lm = new LightsManager();
+
+BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle, IN DWORD nReason, IN LPVOID Reserved)
+{
+  switch (nReason)
+  {
+  case DLL_PROCESS_ATTACH:
+    break;
+  case DLL_PROCESS_DETACH:
+    if (lm != nullptr)
+    {
+      lm->Shutdown();
+    }
+    break;
+  default:
+    break;
+  }
+  return TRUE;
+}
 
 bool PacInitialize(void)
 {
-  lm.Initialize();
+  if (!lm->IsConnected())
+  {
+    lm->Initialize();
+  }
 
-  return lm.IsConnected();
+  return lm->IsConnected();
 }
 
 bool PacSetLEDStates(int deviceId, short int data)
 {
+  printf("PacSetLEDStates");
+
   LightsState ls;
 
   // this is the correct "openITG" order of lights
@@ -35,7 +58,7 @@ bool PacSetLEDStates(int deviceId, short int data)
   ls.p2_menu = IS_BIT_SET(data, 13);
   ls.bass = IS_BIT_SET(data, 14) || IS_BIT_SET(data, 15);
 
-  lm.SetAll(&ls);
+  lm->SetAll(&ls);
 
   return true;
 }

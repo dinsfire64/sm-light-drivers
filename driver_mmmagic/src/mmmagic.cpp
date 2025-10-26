@@ -4,7 +4,7 @@
 
 #include "mmmagic.h"
 
-LightsManager lm;
+LightsManager *lm = new LightsManager();
 LightsState light_state;
 
 BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle, IN DWORD nReason, IN LPVOID Reserved)
@@ -14,6 +14,10 @@ BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle, IN DWORD nReason, IN LPVOID Rese
   case DLL_PROCESS_ATTACH:
     break;
   case DLL_PROCESS_DETACH:
+    if (lm != nullptr)
+    {
+      lm->Shutdown();
+    }
     break;
   default:
     break;
@@ -23,7 +27,7 @@ BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle, IN DWORD nReason, IN LPVOID Rese
 
 bool mm_sendDDRMiniMaidUpdate()
 {
-  lm.SetAll(&light_state);
+  lm->SetAll(&light_state);
   return true;
 }
 
@@ -130,7 +134,7 @@ void mm_setDDRAllOff()
 
 bool mm_connect_minimaid()
 {
-  lm.Initialize();
+  lm->Initialize();
   return true;
 }
 

@@ -21,6 +21,7 @@ public:
     ~LightsManager();
 
     void Initialize();
+    void Shutdown();
     void SetAll(const LightsState *ls);
     void ForceAllTo(bool val);
 

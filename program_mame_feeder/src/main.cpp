@@ -9,8 +9,28 @@ using namespace std;
 
 #define DEBUG false
 
-LightsManager lm;
+LightsManager *lm = new LightsManager();
 LightsState light_state;
+
+BOOL WINAPI ConsoleHandler(DWORD signal)
+{
+    switch (signal)
+    {
+    case CTRL_C_EVENT:
+    case CTRL_CLOSE_EVENT:
+
+        if (lm != nullptr)
+        {
+            lm->Shutdown();
+        }
+
+        // lets the default handler exit
+        return FALSE;
+    default:
+        // other signals, default behavior
+        return FALSE;
+    }
+}
 
 const map<string, bool LightsState::*> light_map = {
     {"body left high", &LightsState::marquee_up_left},
@@ -75,15 +95,18 @@ void interp_mame_light(string input)
 
 int main()
 {
+    // set a catch for the ctrl+c/exits to cleanly disconnect.
+    SetConsoleCtrlHandler(ConsoleHandler, TRUE);
+
     printf("Starting mame_feeder %s\r\n", _WIN32 ? "32bit" : "64bit");
 
     bool connected = false;
 
     Socket s = Socket();
-    lm.Initialize();
+    lm->Initialize();
 
     // if (connected)
-    if (lm.IsConnected())
+    if (lm->IsConnected())
     {
         printf("Connected to LightingManager.\r\n\r\n");
 
@@ -92,7 +115,7 @@ int main()
         {
             // turn off lights between connections.
             light_state.AllOff();
-            lm.SetAll(&light_state);
+            lm->SetAll(&light_state);
 
             printf("Connecting to MAME at %s.", IniHelper::Mame.IPAddress.c_str());
 
@@ -119,7 +142,7 @@ int main()
                 {
                     // only light deltas are sent to us by MAME, so we can push on every change.
                     interp_mame_light(newLight);
-                    lm.SetAll(&light_state);
+                    lm->SetAll(&light_state);
                 }
             }
         }
@@ -130,6 +153,8 @@ int main()
         printf("Press Enter to exit.\r\n");
         cin.get();
     }
+
+    lm->Shutdown();
 
     return 0;
 }

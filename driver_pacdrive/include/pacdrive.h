@@ -11,14 +11,16 @@ extern "C"
 
 #include <windows.h>
 
+    BOOLEAN WINAPI DllMain(IN HINSTANCE, IN DWORD, IN LPVOID);
+
     // ---- Initialization and general ----
     void EXPORT PacSetCallbacks(void * /*connectCb*/, void * /*disconnectCb*/) {}
     bool EXPORT PacInitialize(void);
     void EXPORT PacShutdown(void) {}
 
     // ---- LED control ----
-    bool EXPORT PacSetLEDState(DWORD /*id*/, DWORD /*port*/, bool /*state*/);
-    bool EXPORT PacSetLEDStates(DWORD /*id*/, const bool * /*states*/, DWORD /*length*/) { return true; }
+    bool EXPORT PacSetLEDState(DWORD /*id*/, DWORD /*port*/, bool /*state*/) { return true; }
+    bool EXPORT PacSetLEDStates(int deviceId, short int data);
 
     bool EXPORT Pac64SetLEDStates(DWORD /*id*/, const bool * /*states*/, DWORD /*length*/) { return true; }
     bool EXPORT Pac64SetLEDState(DWORD /*id*/, DWORD /*port*/, bool /*state*/) { return true; }

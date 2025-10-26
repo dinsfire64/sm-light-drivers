@@ -60,26 +60,7 @@ LightsManager::LightsManager()
 
 LightsManager::~LightsManager()
 {
-    // force all off on exit.
-    ForceAllTo(false);
-
-    // wait for worker to finish
-    Sleep(LIGHTSMAN_TIMEOUT_THREAD_MS);
-
-    // Stop worker thread
-    m_running = false;
-    m_cv.notify_all();
-    if (m_worker.joinable())
-        m_worker.join();
-
-    // Disconnect all drivers
-    for (auto *driver : m_connectedDrivers)
-    {
-        if (driver)
-        {
-            driver->Disconnect();
-        }
-    }
+    Shutdown();
 }
 
 void LightsManager::ForceAllTo(bool val)
@@ -87,6 +68,35 @@ void LightsManager::ForceAllTo(bool val)
     m_latestState.SetAll(val);
     m_stateDirty = true;
     m_cv.notify_one();
+}
+
+void LightsManager::Shutdown()
+{
+    if (m_running)
+    {
+        // force all off on exit.
+        ForceAllTo(false);
+
+        // wait for worker to finish
+        Sleep(LIGHTSMAN_TIMEOUT_THREAD_MS);
+
+        // Stop worker thread
+        m_running = false;
+        m_cv.notify_all();
+        if (m_worker.joinable())
+            m_worker.join();
+
+        // Disconnect all drivers
+        for (auto *driver : m_connectedDrivers)
+        {
+            if (driver)
+            {
+                // send to all to off, then disconnect.
+                driver->Set(&m_latestState);
+                driver->Disconnect();
+            }
+        }
+    }
 }
 
 void LightsManager::Initialize()
@@ -101,7 +111,7 @@ void LightsManager::Initialize()
         }
     }
 
-    std::cout << "[LightsManager] " << m_connectedDrivers.size() << " drivers connected.\n";
+    printf("[LightsManager] %d drivers connected.\n", m_connectedDrivers.size());
     connected = true;
 
     // Start background thread

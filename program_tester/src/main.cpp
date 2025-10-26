@@ -9,14 +9,38 @@
 
 using namespace std;
 
-#define DEBUGping false
+#define DEBUG false
+
+LightsManager *lm = new LightsManager();
+
+BOOL WINAPI ConsoleHandler(DWORD signal)
+{
+    switch (signal)
+    {
+    case CTRL_C_EVENT:
+    case CTRL_CLOSE_EVENT:
+
+        if (lm != nullptr)
+        {
+            lm->Shutdown();
+        }
+
+        // lets the default handler exit
+        return FALSE;
+    default:
+        // other signals, default behavior
+        return FALSE;
+    }
+}
 
 int main()
 {
+    // set a catch for the ctrl+c/exits to cleanly disconnect.
+    SetConsoleCtrlHandler(ConsoleHandler, TRUE);
+
     printf("Starting light test %s\r\n", _WIN32 ? "32bit" : "64bit");
     printf("\r\nPress any key to enter manual mode.\r\n");
 
-    LightsManager lm;
     LightsState state;
     memset(&state, 0, sizeof(state));
 
@@ -46,9 +70,9 @@ int main()
     int current = 0;
     bool manualMode = false;
 
-    lm.Initialize();
+    lm->Initialize();
 
-    if (lm.IsConnected())
+    if (lm->IsConnected())
     {
         printf("Connected to LightingManager.\r\n\r\n");
 
@@ -61,7 +85,7 @@ int main()
                 memset(&state, 0, sizeof(state));
                 *(lights[current].field) = true;
 
-                lm.SetAll(&state);
+                lm->SetAll(&state);
                 printf("turning on: %s\r\n", lights[current].name);
                 fflush(stdout);
 
@@ -111,7 +135,7 @@ int main()
 
                     memset(&state, 0, sizeof(state));
                     *(lights[current].field) = !*(lights[current].field);
-                    lm.SetAll(&state);
+                    lm->SetAll(&state);
                 }
             }
         }
@@ -122,6 +146,8 @@ int main()
         printf("Press Enter to exit.\r\n");
         cin.get();
     }
+
+    lm->Shutdown();
 
     return 0;
 }
