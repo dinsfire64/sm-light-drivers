@@ -14,10 +14,8 @@ mkdir -p release/BewaresExtreme release/OpenITG-NotITG release/ITGMania-OutFox r
 
 # bewares needs inpout32 and custom bin
 cp build-win32/driver_inpout32/*.dll release/BewaresExtreme || true
+cp build-win32/driver_pacdrive/PacDrive32.dll release/BewaresExtreme/PacDrive.dll || true
 cp bins/bewares/* release/BewaresExtreme || true
-
-#TODO: provide matching linked copy of pacdrive dll.
-#cp build-win32/driver_pacdrive/*.dll release/BewaresExtreme/PacDrive.dll || true
 
 # sm395 needs parallel_lights_io and custom bin
 cp build-win32/driver_parallel_lights_io/*.dll release/StepMania3-95 || true
