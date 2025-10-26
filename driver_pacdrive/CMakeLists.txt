@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(pacdrive)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
+file(GLOB_RECURSE DEFS "src/*.def")
 
 add_library(pacdrive SHARED ${SOURCES})
 

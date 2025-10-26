@@ -5,28 +5,11 @@
 
 LightsManager lm;
 
-BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle, IN DWORD nReason, IN LPVOID Reserved)
-{
-  switch (nReason)
-  {
-  case DLL_PROCESS_ATTACH:
-    break;
-  case DLL_PROCESS_DETACH:
-    break;
-  }
-  return TRUE;
-}
-
-int PacInitialize(void)
+bool PacInitialize(void)
 {
   lm.Initialize();
 
-  return lm.IsConnected() ? 1 : 0;
-}
-
-void PacShutdown(void)
-{
-  // taken care of by LightsMan destructor
+  return lm.IsConnected();
 }
 
 bool PacSetLEDStates(int deviceId, short int data)
