@@ -42,7 +42,7 @@ int main()
     printf("\r\nPress any key to enter manual mode.\r\n");
 
     LightsState state;
-    memset(&state, 0, sizeof(state));
+    state.AllOff();
 
     struct
     {
@@ -82,7 +82,7 @@ int main()
             if (!manualMode)
             {
                 // Auto cycle
-                memset(&state, 0, sizeof(state));
+                state.AllOff();
                 *(lights[current].field) = true;
 
                 lm->SetAll(&state);
@@ -133,7 +133,7 @@ int main()
                         break;
                     }
 
-                    memset(&state, 0, sizeof(state));
+                    state.AllOff();
                     *(lights[current].field) = !*(lights[current].field);
                     lm->SetAll(&state);
                 }
