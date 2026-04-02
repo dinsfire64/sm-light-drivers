@@ -21,27 +21,27 @@
 #define DDR_DOUBLE_PAD_RESET 4
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-    EXPORT void mm_setDDRPad1Light(int, int);
-    EXPORT void mm_setDDRPad2Light(int a, int b);
-    EXPORT void mm_setDDRCabinetLight(int a, int b);
-    EXPORT void mm_setDDRBassLight(int a, int b);
+EXPORT void mm_setDDRPad1Light(int, int);
+EXPORT void mm_setDDRPad2Light(int a, int b);
+EXPORT void mm_setDDRCabinetLight(int a, int b);
+EXPORT void mm_setDDRBassLight(int a, int b);
 
-    EXPORT bool mm_connect_minimaid();
-    EXPORT bool mm_setKB(bool val);
+EXPORT bool mm_connect_minimaid();
+EXPORT bool mm_setKB(bool val);
 
-    EXPORT void mm_setDDRAllOn();
-    EXPORT void mm_setDDRAllOff();
+EXPORT void mm_setDDRAllOn();
+EXPORT void mm_setDDRAllOff();
 
-    EXPORT void mm_setBlueLED(unsigned char value);
-    EXPORT void mm_setMMOutputReports(unsigned char a, unsigned char b, unsigned char c, unsigned char d);
-    EXPORT bool mm_sendDDRMiniMaidUpdate();
-    EXPORT void mm_init();
-    EXPORT unsigned char mm_turnON(unsigned char set, int bit);
-    EXPORT unsigned char mm_turnOFF(unsigned char set, int bit);
+EXPORT void mm_setBlueLED(unsigned char value);
+EXPORT void mm_setMMOutputReports(unsigned char a, unsigned char b,
+                                  unsigned char c, unsigned char d);
+EXPORT bool mm_sendDDRMiniMaidUpdate();
+EXPORT void mm_init();
+EXPORT unsigned char mm_turnON(unsigned char set, int bit);
+EXPORT unsigned char mm_turnOFF(unsigned char set, int bit);
 
 #ifdef __cplusplus
 }

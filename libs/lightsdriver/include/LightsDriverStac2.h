@@ -1,8 +1,8 @@
 #pragma once
 
+#include "HIDHelper.h"
 #include "LightsDriver.h"
 #include "LightsManager.h"
-#include "HIDHelper.h"
 
 #include <cstdint>
 #include <string.h>
@@ -21,39 +21,38 @@
 // total number of supported devices.
 #define STAC2_MAX_NUMBER 2
 
-enum Stac2LightIndex
-{
-    STAC2_LIGHTINDEX_REPORT = 0,
+enum Stac2LightIndex {
+  STAC2_LIGHTINDEX_REPORT = 0,
 
-    STAC2_LIGHTINDEX_BTN1,
-    STAC2_LIGHTINDEX_BTN2,
-    STAC2_LIGHTINDEX_BTN3,
-    STAC2_LIGHTINDEX_BTN4,
-    STAC2_LIGHTINDEX_BTN5,
-    STAC2_LIGHTINDEX_BTN6,
-    STAC2_LIGHTINDEX_BTN7,
-    STAC2_LIGHTINDEX_BTN8,
+  STAC2_LIGHTINDEX_BTN1,
+  STAC2_LIGHTINDEX_BTN2,
+  STAC2_LIGHTINDEX_BTN3,
+  STAC2_LIGHTINDEX_BTN4,
+  STAC2_LIGHTINDEX_BTN5,
+  STAC2_LIGHTINDEX_BTN6,
+  STAC2_LIGHTINDEX_BTN7,
+  STAC2_LIGHTINDEX_BTN8,
 
-    STAC2_LIGHTINDEX_MAX
+  STAC2_LIGHTINDEX_MAX
 };
 
-static_assert(STAC2_LIGHTINDEX_MAX == STAC2_HIDREPORT_SIZE, "Incorrect STAC2 StacLightIndex");
+static_assert(STAC2_LIGHTINDEX_MAX == STAC2_HIDREPORT_SIZE,
+              "Incorrect STAC2 StacLightIndex");
 
-class LightsDriverStac2 : public LightsDriver
-{
+class LightsDriverStac2 : public LightsDriver {
 public:
-    LightsDriverStac2();
-    ~LightsDriverStac2() override;
+  LightsDriverStac2();
+  ~LightsDriverStac2() override;
 
-    bool Connect() override;
+  bool Connect() override;
 
-    void Set(const LightsState *ls) override;
+  void Set(const LightsState *ls) override;
 
-    void Disconnect() override;
+  void Disconnect() override;
 
 private:
-    uint8_t outputBuffer[STAC2_MAX_NUMBER][STAC2_HIDREPORT_SIZE];
-    uint8_t prevOutputBuffer[STAC2_MAX_NUMBER][STAC2_HIDREPORT_SIZE];
+  uint8_t outputBuffer[STAC2_MAX_NUMBER][STAC2_HIDREPORT_SIZE];
+  uint8_t prevOutputBuffer[STAC2_MAX_NUMBER][STAC2_HIDREPORT_SIZE];
 
-    HIDHelper *hidHelper[STAC2_MAX_NUMBER];
+  HIDHelper *hidHelper[STAC2_MAX_NUMBER];
 };

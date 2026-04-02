@@ -1,8 +1,8 @@
 #pragma once
 
+#include "HIDHelper.h"
 #include "LightsDriver.h"
 #include "LightsManager.h"
-#include "HIDHelper.h"
 
 #include <cstdint>
 #include <string.h>
@@ -23,66 +23,62 @@
 
 #pragma pack(push, 1)
 
-typedef union
-{
-    struct
-    {
-        // NOTE: this is intentionally byte swapped
-        // as Ultimarc's library does this, the firmware expects this order.
-        // this matches the physical location of each output with the variable name.
-        // see this code snippet: https://github.com/itgmania/itgmania/issues/921#issuecomment-3008263137
-        bool led09 : 1;
-        bool led10 : 1;
-        bool led11 : 1;
-        bool led12 : 1;
-        bool led13 : 1;
-        bool led14 : 1;
-        bool led15 : 1;
-        bool led16 : 1;
+typedef union {
+  struct {
+    // NOTE: this is intentionally byte swapped
+    // as Ultimarc's library does this, the firmware expects this order.
+    // this matches the physical location of each output with the variable name.
+    // see this code snippet:
+    // https://github.com/itgmania/itgmania/issues/921#issuecomment-3008263137
+    bool led09 : 1;
+    bool led10 : 1;
+    bool led11 : 1;
+    bool led12 : 1;
+    bool led13 : 1;
+    bool led14 : 1;
+    bool led15 : 1;
+    bool led16 : 1;
 
-        bool led01 : 1;
-        bool led02 : 1;
-        bool led03 : 1;
-        bool led04 : 1;
-        bool led05 : 1;
-        bool led06 : 1;
-        bool led07 : 1;
-        bool led08 : 1;
-    };
-    uint16_t raw;
+    bool led01 : 1;
+    bool led02 : 1;
+    bool led03 : 1;
+    bool led04 : 1;
+    bool led05 : 1;
+    bool led06 : 1;
+    bool led07 : 1;
+    bool led08 : 1;
+  };
+  uint16_t raw;
 } pacdrive_leds_t;
 
 #pragma pack(pop)
 
-typedef union
-{
-    struct
-    {
-        uint8_t report_id;
-        uint8_t pad0;
-        uint8_t pad1;
-        pacdrive_leds_t leds;
-    };
-    uint8_t raw_state[PACDRIVE_HIDREPORT_SIZE];
+typedef union {
+  struct {
+    uint8_t report_id;
+    uint8_t pad0;
+    uint8_t pad1;
+    pacdrive_leds_t leds;
+  };
+  uint8_t raw_state[PACDRIVE_HIDREPORT_SIZE];
 } pacdrive_state_t;
 
-class LightsDriverPacDrive : public LightsDriver
-{
+class LightsDriverPacDrive : public LightsDriver {
 public:
-    LightsDriverPacDrive();
-    ~LightsDriverPacDrive() override;
+  LightsDriverPacDrive();
+  ~LightsDriverPacDrive() override;
 
-    bool Connect() override;
+  bool Connect() override;
 
-    void Set(const LightsState *ls) override;
+  void Set(const LightsState *ls) override;
 
-    void Disconnect() override;
+  void Disconnect() override;
 
 private:
-    pacdrive_leds_t outputLEDs;
-    pacdrive_leds_t prevoutputLEDs;
+  pacdrive_leds_t outputLEDs;
+  pacdrive_leds_t prevoutputLEDs;
 
-    HIDHelper *hidHelper;
+  HIDHelper *hidHelper;
 
-    void PushState();
+  void PushState();
 };

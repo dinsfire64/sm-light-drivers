@@ -1,8 +1,8 @@
 #pragma once
 
+#include "HIDHelper.h"
 #include "LightsDriver.h"
 #include "LightsManager.h"
-#include "HIDHelper.h"
 
 #include <cstdint>
 #include <string.h>
@@ -20,52 +20,51 @@
 // number of lights plus report id.
 #define HID_LIGHTS_REPORT_SIZE (1 + TOTAL_LIGHTS)
 
-enum FusionReportIndex
-{
-    FUSION_REPORT_ID = 0,
+enum FusionReportIndex {
+  FUSION_REPORT_ID = 0,
 
-    FUSION_P1_UL,
-    FUSION_P1_UR,
-    FUSION_P1_CN,
-    FUSION_P1_LL,
-    FUSION_P1_LR,
+  FUSION_P1_UL,
+  FUSION_P1_UR,
+  FUSION_P1_CN,
+  FUSION_P1_LL,
+  FUSION_P1_LR,
 
-    FUSION_P2_UL,
-    FUSION_P2_UR,
-    FUSION_P2_CN,
-    FUSION_P2_LL,
-    FUSION_P2_LR,
+  FUSION_P2_UL,
+  FUSION_P2_UR,
+  FUSION_P2_CN,
+  FUSION_P2_LL,
+  FUSION_P2_LR,
 
-    FUSION_NEON,
+  FUSION_NEON,
 
-    FUSION_MAR_UL,
-    FUSION_MAR_UR,
-    FUSION_MAR_LL,
-    FUSION_MAR_LR,
+  FUSION_MAR_UL,
+  FUSION_MAR_UR,
+  FUSION_MAR_LL,
+  FUSION_MAR_LR,
 
-    FUSION_COIN_PULSE,
-    FUSION_LED,
+  FUSION_COIN_PULSE,
+  FUSION_LED,
 
-    FUISON_REPORT_MAX
+  FUISON_REPORT_MAX
 };
 
-static_assert(FUISON_REPORT_MAX == HID_LIGHTS_REPORT_SIZE, "Incorrect FusionReportIndex");
+static_assert(FUISON_REPORT_MAX == HID_LIGHTS_REPORT_SIZE,
+              "Incorrect FusionReportIndex");
 
-class LightsDriverFusionGamepad : public LightsDriver
-{
+class LightsDriverFusionGamepad : public LightsDriver {
 public:
-    LightsDriverFusionGamepad();
-    ~LightsDriverFusionGamepad() override;
+  LightsDriverFusionGamepad();
+  ~LightsDriverFusionGamepad() override;
 
-    bool Connect() override;
+  bool Connect() override;
 
-    void Set(const LightsState *ls) override;
+  void Set(const LightsState *ls) override;
 
-    void Disconnect() override;
+  void Disconnect() override;
 
 private:
-    uint8_t outputBuffer[FUISON_REPORT_MAX];
-    uint8_t prevOutputBuffer[FUISON_REPORT_MAX];
+  uint8_t outputBuffer[FUISON_REPORT_MAX];
+  uint8_t prevOutputBuffer[FUISON_REPORT_MAX];
 
-    HIDHelper *hidHelper;
+  HIDHelper *hidHelper;
 };

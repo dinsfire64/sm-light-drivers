@@ -5,14 +5,13 @@
 #define EXPORT __declspec(dllexport)
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-    BOOLEAN WINAPI DllMain(IN HINSTANCE, IN DWORD, IN LPVOID);
+BOOLEAN WINAPI DllMain(IN HINSTANCE, IN DWORD, IN LPVOID);
 
-    EXPORT short WINAPI IsDriverInstalled();
-    EXPORT void WINAPI PortOut(short Port, short Data);
+EXPORT short WINAPI IsDriverInstalled();
+EXPORT void WINAPI PortOut(short Port, short Data);
 
 #ifdef __cplusplus
 }

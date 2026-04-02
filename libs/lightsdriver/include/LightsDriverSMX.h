@@ -9,20 +9,19 @@
 
 #include <windows.h>
 
-class LightsDriverSMX : public LightsDriver
-{
+class LightsDriverSMX : public LightsDriver {
 public:
-    LightsDriverSMX();
-    ~LightsDriverSMX() override;
+  LightsDriverSMX();
+  ~LightsDriverSMX() override;
 
-    bool Connect() override;
+  bool Connect() override;
 
-    void Set(const LightsState *ls) override;
+  void Set(const LightsState *ls) override;
 
-    void Disconnect() override;
+  void Disconnect() override;
 
 private:
-    SMX_Interface smx_i;
-    
-    void LoadColorMap();
+  SMX_Interface smx_i;
+
+  void LoadColorMap();
 };

@@ -1,8 +1,8 @@
 #pragma once
 
+#include "HIDHelper.h"
 #include "LightsDriver.h"
 #include "LightsManager.h"
-#include "HIDHelper.h"
 
 #include <cstdint>
 #include <string.h>
@@ -29,27 +29,26 @@
 #define BD_UNILIGHT_LIGHT_PAD_P2_UP 0x40
 #define BD_UNILIGHT_LIGHT_PAD_P2_DOWN 0x80
 
-class LightsDriverUnilight : public LightsDriver
-{
+class LightsDriverUnilight : public LightsDriver {
 public:
-    LightsDriverUnilight();
-    ~LightsDriverUnilight() override;
+  LightsDriverUnilight();
+  ~LightsDriverUnilight() override;
 
-    bool Connect() override;
+  bool Connect() override;
 
-    void Set(const LightsState *ls) override;
+  void Set(const LightsState *ls) override;
 
-    void Disconnect() override;
+  void Disconnect() override;
 
 private:
-    uint8_t cabLights;
-    uint8_t prevCabLights;
+  uint8_t cabLights;
+  uint8_t prevCabLights;
 
-    uint8_t padLights;
-    uint8_t prevPadLights;
+  uint8_t padLights;
+  uint8_t prevPadLights;
 
-    HIDHelper *hidHelper;
+  HIDHelper *hidHelper;
 
-    void pushCabLights();
-    void pushPadLights();
+  void pushCabLights();
+  void pushPadLights();
 };

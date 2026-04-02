@@ -1,10 +1,10 @@
 #pragma once
 
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <queue>
 #include <atomic>
+#include <condition_variable>
+#include <mutex>
+#include <queue>
+#include <thread>
 
 #include "LightsDriver.h"
 
@@ -14,38 +14,37 @@
 // Forward declare a factory type
 typedef LightsDriver *(*CreateLightsDriverFn)();
 
-class LightsManager
-{
+class LightsManager {
 public:
-    LightsManager();
-    ~LightsManager();
+  LightsManager();
+  ~LightsManager();
 
-    void Initialize();
-    void Shutdown();
-    void SetAll(const LightsState *ls);
-    void ForceAllTo(bool val);
+  void Initialize();
+  void Shutdown();
+  void SetAll(const LightsState *ls);
+  void ForceAllTo(bool val);
 
-    bool IsConnected();
+  bool IsConnected();
 
 private:
-    std::vector<std::unique_ptr<LightsDriver>> m_allDrivers;
-    std::vector<LightsDriver *> m_connectedDrivers;
-    bool connected = false;
+  std::vector<std::unique_ptr<LightsDriver>> m_allDrivers;
+  std::vector<LightsDriver *> m_connectedDrivers;
+  bool connected = false;
 
-    // --- Threading members ---
-    std::thread m_worker;
-    std::mutex m_mutex;
-    std::condition_variable m_cv;
-    std::queue<LightsState> m_queue;
-    std::atomic<bool> m_running{false};
+  // --- Threading members ---
+  std::thread m_worker;
+  std::mutex m_mutex;
+  std::condition_variable m_cv;
+  std::queue<LightsState> m_queue;
+  std::atomic<bool> m_running{false};
 
-    LightsState m_latestState;
-    bool m_stateDirty = false; // true if there’s a new state to send
+  LightsState m_latestState;
+  bool m_stateDirty = false; // true if there’s a new state to send
 
-    void WorkerThread();
+  void WorkerThread();
 
 public:
-    // Registration system
-    static void Register(CreateLightsDriverFn fn);
-    static std::vector<CreateLightsDriverFn> &GetRegistry();
+  // Registration system
+  static void Register(CreateLightsDriverFn fn);
+  static std::vector<CreateLightsDriverFn> &GetRegistry();
 };

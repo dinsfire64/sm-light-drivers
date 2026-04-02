@@ -1,19 +1,17 @@
-#include <pacdrive.h>
 #include <LightsManager.h>
+#include <pacdrive.h>
 
 #define IS_BIT_SET(data, bit) ((data & (1 << bit)) != 0)
 
 LightsManager *lm = new LightsManager();
 
-BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle, IN DWORD nReason, IN LPVOID Reserved)
-{
-  switch (nReason)
-  {
+BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle, IN DWORD nReason,
+                       IN LPVOID Reserved) {
+  switch (nReason) {
   case DLL_PROCESS_ATTACH:
     break;
   case DLL_PROCESS_DETACH:
-    if (lm != nullptr)
-    {
+    if (lm != nullptr) {
       lm->Shutdown();
     }
     break;
@@ -23,18 +21,15 @@ BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle, IN DWORD nReason, IN LPVOID Rese
   return TRUE;
 }
 
-bool PacInitialize(void)
-{
-  if (!lm->IsConnected())
-  {
+bool PacInitialize(void) {
+  if (!lm->IsConnected()) {
     lm->Initialize();
   }
 
   return lm->IsConnected();
 }
 
-bool PacSetLEDStates(int deviceId, short int data)
-{
+bool PacSetLEDStates(int deviceId, short int data) {
   printf("PacSetLEDStates");
 
   LightsState ls;
