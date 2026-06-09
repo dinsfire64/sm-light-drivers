@@ -37,6 +37,8 @@ smx_pad_light_map bass_overlay = {P1_UPPER_LFT, 0xff, 0xff, 0xff, false, false};
 LightsDriverSMX::LightsDriverSMX() {
   smx_i = SMX_Interface();
   smx_i.SetOverlayColor(bass_overlay);
+  smx_i.SetFadeOn(IniHelper::SMX.FadeOnStep);
+  smx_i.SetFadeOff(IniHelper::SMX.FadeOffStep);
 };
 
 LightsDriverSMX::~LightsDriverSMX() {

@@ -233,13 +233,13 @@ void SMX_Interface::FadeState(padstate *pattern) {
   for (int i = 0; i < NUM_OF_PANELS; i++) {
     if (pattern->panel_on[i]) {
       if (pattern->panel_alpha[i] < MAX_BRIGHTNESS) {
-        pattern->panel_alpha[i] += MASK_FADE_INCREMENT;
+        pattern->panel_alpha[i] += fadeOn;
       } else {
         pattern->panel_alpha[i] = MAX_BRIGHTNESS;
       }
     } else {
       if (pattern->panel_alpha[i] > MIN_BRIGHTNESS) {
-        pattern->panel_alpha[i] -= MASK_FADE_DECREMENT;
+        pattern->panel_alpha[i] -= fadeOff;
       } else {
         pattern->panel_alpha[i] = MIN_BRIGHTNESS;
       }
@@ -353,12 +353,12 @@ void SMX_Interface::CombineStates() {
       float res_alpha = 1 - (1 - background->panel_alpha[panelnum]) *
                                 (1 - foreground->panel_alpha[panelnum]);
 
-      if (res_alpha < MASK_FADE_DECREMENT) {
+      if (res_alpha < fadeOff) {
         // resulting color is too dim, just make it off.
         finalLightState[offset + 0] = 0;
         finalLightState[offset + 1] = 0;
         finalLightState[offset + 2] = 0;
-      } else if (foreground->panel_alpha[panelnum] < MASK_FADE_INCREMENT) {
+      } else if (foreground->panel_alpha[panelnum] < fadeOn) {
         // foreground is off, use the background
         finalLightState[offset + 0] =
             background->pattern[offset + 0] * background->panel_alpha[panelnum];
@@ -366,7 +366,7 @@ void SMX_Interface::CombineStates() {
             background->pattern[offset + 1] * background->panel_alpha[panelnum];
         finalLightState[offset + 2] =
             background->pattern[offset + 2] * background->panel_alpha[panelnum];
-      } else if (background->panel_alpha[panelnum] < MASK_FADE_INCREMENT) {
+      } else if (background->panel_alpha[panelnum] < fadeOn) {
         // background is off, use the foreground
         finalLightState[offset + 0] =
             foreground->pattern[offset + 0] * foreground->panel_alpha[panelnum];

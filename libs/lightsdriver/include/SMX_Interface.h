@@ -75,9 +75,7 @@ struct smx_pad_light_map {
 #define COLUMN_LED 4
 #define ROW_LED (LEDS_PER_PANEL / COLUMN_LED)
 
-#define MASK_FADE_STEP 0.25
-#define MASK_FADE_INCREMENT (MASK_FADE_STEP)
-#define MASK_FADE_DECREMENT (MASK_FADE_STEP)
+#define FADE_DEF_STEP 0.25
 
 #define MIN_BRIGHTNESS 0.0
 #define MAX_BRIGHTNESS 1.0
@@ -107,6 +105,9 @@ private:
 
   std::thread *UpdateThreadObject = nullptr;
   bool run_thread;
+
+  float fadeOn = FADE_DEF_STEP;
+  float fadeOff = FADE_DEF_STEP;
 
   void UpdateThread();
 
@@ -164,4 +165,7 @@ public:
 
   void Update_Light(smx_pad_light_map light, bool light_on);
   void SendLightingState();
+
+  void SetFadeOn(float a) { fadeOn = a; }
+  void SetFadeOff(float a) { fadeOff = a; }
 };

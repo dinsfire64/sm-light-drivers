@@ -43,6 +43,8 @@ public:
 #define SETTINGS_LIST                                                          \
   X(Sextet, ComPort, std::string, "COM54")                                     \
   X(Sextet, PipeName, std::string, "StepMania-Lights-SextetStream")            \
+  X(SMX, FadeOnStep, float, 0.25)                                              \
+  X(SMX, FadeOffStep, float, 0.25)                                             \
   X(SMX, P1_UpDown, IniRGB, IniRGB(255, 0, 0))                                 \
   X(SMX, P1_LeftRight, IniRGB, IniRGB(0, 0, 255))                              \
   X(SMX, P2_UpDown, IniRGB, IniRGB(255, 0, 0))                                 \
@@ -105,6 +107,8 @@ public:
       return ini.GetBoolValue(section, key, defaultValue);
     else if constexpr (std::is_same_v<T, int>)
       return static_cast<int>(ini.GetLongValue(section, key, defaultValue));
+    else if constexpr (std::is_same_v<T, float>)
+      return static_cast<float>(ini.GetDoubleValue(section, key, defaultValue));
     else if constexpr (std::is_same_v<T, IniRGB>) {
       std::string str =
           ini.GetValue(section, key, defaultValue.ToString().c_str());
@@ -119,6 +123,8 @@ public:
       ini.SetBoolValue(section, key, value);
     else if constexpr (std::is_same_v<T, int>)
       ini.SetLongValue(section, key, value);
+    else if constexpr (std::is_same_v<T, float>)
+      ini.SetDoubleValue(section, key, value);
     else if constexpr (std::is_same_v<T, IniRGB>)
       ini.SetValue(section, key, value.ToString().c_str());
     else
