@@ -57,7 +57,7 @@ struct smx_pad_light_map {
   uint8_t g;
   uint8_t b;
   bool repeat_on_both;
-  bool fade_on;
+  bool fade_disabled;
 };
 
 #define CHANNELS_PER_LED 3

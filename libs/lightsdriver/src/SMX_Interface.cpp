@@ -196,18 +196,26 @@ void SMX_Interface::Update_Light(smx_pad_light_map light, bool light_on) {
   // turn on the light.
   background->panel_on[light.smx_light_panel_offset] = light_on;
 
+  // copy the light state to the second side if enabled.
   if (light.repeat_on_both) {
     background->panel_on[light.smx_light_panel_offset + PANELS_PER_STAGE] =
         light_on;
   }
 
-  if (!(light.fade_on) && light_on) {
-    background->panel_alpha[light.smx_light_panel_offset] = MAX_BRIGHTNESS;
-  }
+  if (light.fade_disabled) {
+    // if fade is disabled, then we need to min/max the brightness here to
+    // bypass the thread that changes the brightness.
+    float lightState = light_on ? MAX_BRIGHTNESS : MIN_BRIGHTNESS;
 
-  if (light.repeat_on_both && !(light.fade_on) && light_on) {
-    background->panel_alpha[light.smx_light_panel_offset + PANELS_PER_STAGE] =
-        MAX_BRIGHTNESS;
+    background->panel_alpha[light.smx_light_panel_offset] = lightState;
+
+    if (light.repeat_on_both) {
+      background->panel_alpha[light.smx_light_panel_offset + PANELS_PER_STAGE] =
+          lightState;
+    }
+  } else {
+    // if fade is enabled, the panel_on state will fade on/off the color
+    // accordingly
   }
 
   light_state_mutex->unlock();
