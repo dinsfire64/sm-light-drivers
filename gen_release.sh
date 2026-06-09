@@ -10,7 +10,7 @@ rm -rf build-win64 2>/dev/null || true
 ./build_all.sh
 
 # Define output folders
-mkdir -p release/BewaresExtreme release/OpenITG-NotITG release/ITGMania-OutFox release/StepMania5 release/StepMania3-95
+mkdir -p release/BewaresExtreme release/OpenITG-NotITG release/ITGMania-OutFox release/StepMania5 release/StepMania3-95 release/ddrio
 
 # bewares needs inpout32 and custom bin
 cp build-win32/driver_inpout32/*.dll release/BewaresExtreme || true
@@ -29,6 +29,9 @@ cp build-win32/driver_mmmagic/*.dll release/StepMania5 || true
 
 # modern sm5 forks need 64bit minimaid library
 cp build-win64/driver_mmmagic/*.dll release/ITGMania-OutFox/mmmagic64.dll || true
+
+# ddrio is used for pcsx2
+cp build-win64/driver_ddrio/*.dll release/ddrio || true
 
 # testers/utilities
 cp build-win32/program_mame_feeder/*.exe release || true
