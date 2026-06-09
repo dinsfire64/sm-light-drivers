@@ -77,8 +77,8 @@ struct smx_pad_light_map {
 
 #define FADE_DEF_STEP 0.25
 
-#define MIN_BRIGHTNESS 0.0
-#define MAX_BRIGHTNESS 1.0
+#define MIN_BRIGHTNESS 0.0f
+#define MAX_BRIGHTNESS 1.0f
 
 #define SMX_THREAD_MS 32
 

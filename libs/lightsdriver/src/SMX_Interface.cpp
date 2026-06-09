@@ -232,17 +232,11 @@ void SMX_Interface::UpdateThread() {
 void SMX_Interface::FadeState(padstate *pattern) {
   for (int i = 0; i < NUM_OF_PANELS; i++) {
     if (pattern->panel_on[i]) {
-      if (pattern->panel_alpha[i] < MAX_BRIGHTNESS) {
-        pattern->panel_alpha[i] += fadeOn;
-      } else {
-        pattern->panel_alpha[i] = MAX_BRIGHTNESS;
-      }
+      pattern->panel_alpha[i] =
+          std::min(MAX_BRIGHTNESS, pattern->panel_alpha[i] + fadeOn);
     } else {
-      if (pattern->panel_alpha[i] > MIN_BRIGHTNESS) {
-        pattern->panel_alpha[i] -= fadeOff;
-      } else {
-        pattern->panel_alpha[i] = MIN_BRIGHTNESS;
-      }
+      pattern->panel_alpha[i] =
+          std::max(MIN_BRIGHTNESS, pattern->panel_alpha[i] - fadeOff);
     }
   }
 }
