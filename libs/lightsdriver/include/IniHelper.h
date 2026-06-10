@@ -45,12 +45,17 @@ public:
   X(Sextet, PipeName, std::string, "StepMania-Lights-SextetStream")            \
   X(SMX, FadeOnStep, float, 0.25)                                              \
   X(SMX, FadeOffStep, float, 0.25)                                             \
-  X(SMX, P1_UpDown, IniRGB, IniRGB(255, 0, 0))                                 \
-  X(SMX, P1_LeftRight, IniRGB, IniRGB(0, 0, 255))                              \
-  X(SMX, P2_UpDown, IniRGB, IniRGB(255, 0, 0))                                 \
-  X(SMX, P2_LeftRight, IniRGB, IniRGB(0, 0, 255))                              \
+  X(SMX, P1_Up, IniRGB, IniRGB(255, 0, 0))                                     \
+  X(SMX, P1_Down, IniRGB, IniRGB(255, 0, 0))                                   \
+  X(SMX, P1_Left, IniRGB, IniRGB(0, 0, 255))                                   \
+  X(SMX, P1_Right, IniRGB, IniRGB(0, 0, 255))                                  \
+  X(SMX, P2_Up, IniRGB, IniRGB(255, 0, 0))                                     \
+  X(SMX, P2_Down, IniRGB, IniRGB(255, 0, 0))                                   \
+  X(SMX, P2_Left, IniRGB, IniRGB(0, 0, 255))                                   \
+  X(SMX, P2_Right, IniRGB, IniRGB(0, 0, 255))                                  \
   X(SMX, P1_Start, IniRGB, IniRGB(0, 255, 0))                                  \
   X(SMX, P2_Start, IniRGB, IniRGB(0, 255, 0))                                  \
+  X(SMX, BassOverlay, IniRGB, IniRGB(255, 255, 255))                           \
   X(SMX, MarUL, IniRGB, IniRGB(255, 0, 0))                                     \
   X(SMX, MarUR, IniRGB, IniRGB(255, 0, 0))                                     \
   X(SMX, MarLL, IniRGB, IniRGB(0, 0, 255))                                     \

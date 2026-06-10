@@ -32,11 +32,8 @@ smx_pad_light_map smx_light_map[] = {
 
 };
 
-smx_pad_light_map bass_overlay = {P1_UPPER_LFT, 0xff, 0xff, 0xff, false, false};
-
 LightsDriverSMX::LightsDriverSMX() {
   smx_i = SMX_Interface();
-  smx_i.SetOverlayColor(bass_overlay);
   smx_i.SetFadeOn(IniHelper::SMX.FadeOnStep);
   smx_i.SetFadeOff(IniHelper::SMX.FadeOffStep);
 };
@@ -59,38 +56,38 @@ bool LightsDriverSMX::Connect() {
 
 void LightsDriverSMX::LoadColorMap() {
   // P1 R, L, D, U
-  smx_light_map[0].r = IniHelper::SMX.P1_LeftRight.r;
-  smx_light_map[0].g = IniHelper::SMX.P1_LeftRight.g;
-  smx_light_map[0].b = IniHelper::SMX.P1_LeftRight.b;
+  smx_light_map[0].r = IniHelper::SMX.P1_Right.r;
+  smx_light_map[0].g = IniHelper::SMX.P1_Right.g;
+  smx_light_map[0].b = IniHelper::SMX.P1_Right.b;
 
-  smx_light_map[1].r = IniHelper::SMX.P1_LeftRight.r;
-  smx_light_map[1].g = IniHelper::SMX.P1_LeftRight.g;
-  smx_light_map[1].b = IniHelper::SMX.P1_LeftRight.b;
+  smx_light_map[1].r = IniHelper::SMX.P1_Left.r;
+  smx_light_map[1].g = IniHelper::SMX.P1_Left.g;
+  smx_light_map[1].b = IniHelper::SMX.P1_Left.b;
 
-  smx_light_map[2].r = IniHelper::SMX.P1_UpDown.r;
-  smx_light_map[2].g = IniHelper::SMX.P1_UpDown.g;
-  smx_light_map[2].b = IniHelper::SMX.P1_UpDown.b;
+  smx_light_map[2].r = IniHelper::SMX.P1_Down.r;
+  smx_light_map[2].g = IniHelper::SMX.P1_Down.g;
+  smx_light_map[2].b = IniHelper::SMX.P1_Down.b;
 
-  smx_light_map[3].r = IniHelper::SMX.P1_UpDown.r;
-  smx_light_map[3].g = IniHelper::SMX.P1_UpDown.g;
-  smx_light_map[3].b = IniHelper::SMX.P1_UpDown.b;
+  smx_light_map[3].r = IniHelper::SMX.P1_Up.r;
+  smx_light_map[3].g = IniHelper::SMX.P1_Up.g;
+  smx_light_map[3].b = IniHelper::SMX.P1_Up.b;
 
   // P2 R, L, D, U
-  smx_light_map[4].r = IniHelper::SMX.P2_LeftRight.r;
-  smx_light_map[4].g = IniHelper::SMX.P2_LeftRight.g;
-  smx_light_map[4].b = IniHelper::SMX.P2_LeftRight.b;
+  smx_light_map[4].r = IniHelper::SMX.P2_Right.r;
+  smx_light_map[4].g = IniHelper::SMX.P2_Right.g;
+  smx_light_map[4].b = IniHelper::SMX.P2_Right.b;
 
-  smx_light_map[5].r = IniHelper::SMX.P2_LeftRight.r;
-  smx_light_map[5].g = IniHelper::SMX.P2_LeftRight.g;
-  smx_light_map[5].b = IniHelper::SMX.P2_LeftRight.b;
+  smx_light_map[5].r = IniHelper::SMX.P2_Left.r;
+  smx_light_map[5].g = IniHelper::SMX.P2_Left.g;
+  smx_light_map[5].b = IniHelper::SMX.P2_Left.b;
 
-  smx_light_map[6].r = IniHelper::SMX.P2_UpDown.r;
-  smx_light_map[6].g = IniHelper::SMX.P2_UpDown.g;
-  smx_light_map[6].b = IniHelper::SMX.P2_UpDown.b;
+  smx_light_map[6].r = IniHelper::SMX.P2_Down.r;
+  smx_light_map[6].g = IniHelper::SMX.P2_Down.g;
+  smx_light_map[6].b = IniHelper::SMX.P2_Down.b;
 
-  smx_light_map[7].r = IniHelper::SMX.P2_UpDown.r;
-  smx_light_map[7].g = IniHelper::SMX.P2_UpDown.g;
-  smx_light_map[7].b = IniHelper::SMX.P2_UpDown.b;
+  smx_light_map[7].r = IniHelper::SMX.P2_Up.r;
+  smx_light_map[7].g = IniHelper::SMX.P2_Up.g;
+  smx_light_map[7].b = IniHelper::SMX.P2_Up.b;
 
   // Marquee UL, LL, UR, LR
   smx_light_map[8].r = IniHelper::SMX.MarUL.r;
@@ -118,12 +115,14 @@ void LightsDriverSMX::LoadColorMap() {
   smx_light_map[13].g = IniHelper::SMX.P2_Start.g;
   smx_light_map[13].b = IniHelper::SMX.P2_Start.b;
 
-  // TODO: fix bass mixing logic.
-  // bass
-  // bass_overlay.r = IniHelper::SMX.Bass.r;
-  // bass_overlay.g = IniHelper::SMX.Bass.r;
-  // bass_overlay.b = IniHelper::SMX.Bass.r;
-  // smx_i.SetOverlayColor(bass_overlay);
+  // bass overlay on the edges.
+  smx_pad_light_map bass_overlay = {P1_UPPER_LFT, 0, 0, 0, false, false};
+
+  bass_overlay.r = IniHelper::SMX.BassOverlay.r;
+  bass_overlay.g = IniHelper::SMX.BassOverlay.g;
+  bass_overlay.b = IniHelper::SMX.BassOverlay.b;
+
+  smx_i.SetOverlayColor(bass_overlay);
 }
 
 void LightsDriverSMX::Disconnect() {}
